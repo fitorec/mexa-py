@@ -10,7 +10,7 @@ class NssField(FieldInterface):
 
     @staticmethod
     def nss_checksum(nss):
-        '''Recibe una cadena de 10(o mas) caracteres y regresa el checksum de los primeros diez'''
+        '''Recibe un string que representa el nss, regresa el checksum'''
         if len(nss) < 10:
             NssField.error_msg = None
             return -1
@@ -45,7 +45,8 @@ class NssField(FieldInterface):
         f_afi = NssField.complete_year(s.group(2))
         f_nac = NssField.complete_year(s.group(3))
         if int(f_afi) < int(f_nac):
-            NssField.error_msg = f"No se pudo afiliar({f_afi}) antes de haber nacido({f_nac})"
+            msg = f"No se pudo afiliar({f_afi}) antes de haber nacido({f_nac})"
+            NssField.error_msg = msg
             return False
         if NssField.nss_checksum(value) == int(s.group(5)):
             return True
@@ -62,7 +63,14 @@ class NssField(FieldInterface):
 
     @staticmethod
     def anios(data  = None):
-        '''Devuelve arreglo ordenado con los años de nacimeinto y el de afiliacion'''
+        '''
+        Devuelve un arreglo con los años de nacimiento y afiliacion
+
+        :param dic data: Los datos el cual puede contener f_nacimiento
+                        y f_afiliacion de existir deberán ser tomados
+                        en cuenta estos valores.
+        :return: Arreglo ordenado de la forma [f_nacimiento, f_afiliacion]
+        '''
         if data is None:
             data  = {}
         if 'f_nacimiento' in data and 'f_afiliacion' in data:
@@ -90,15 +98,21 @@ class NssField(FieldInterface):
 
     @staticmethod
     def generate(data = None):
-        '''Devuelve un NSS valido'''
+        '''
+        Genera un NSS a partir de los datos recibidos.
+
+        :param dic data: Los valores contenidos deberán ser tomados en cuenta.
+        :return: str nss Un número del Seguro Social válido
+        '''
         if data is None:
             data  = {}
-        region_imss = data['region_imss'] if 'region_imss' in data else random.randrange(0, 99)
+        reg = data['region_imss'] if 'region_imss' in data else random.randrange(0, 99)
         years = NssField.anios(data)
-        folio_imss = data['folio_imss'] if 'folio_imss' in data else random.randrange(10, 9999)
-        # Variables a usar
-        reg = str(region_imss).rjust(2, '0')
+        fol = data['folio_imss'] if 'folio_imss' in data else random.randrange(0, 9999)
+        # Asignacion y formato
+        reg = str(reg).rjust(2, '0')
         afi = str(years[1])[-2:] # Año de Afiliacion
         nac = str(years[0])[-2:] # Año de Nacimiento
-        fol = str(folio_imss).rjust(4, '0')
+        fol = str(fol).rjust(4, '0')
+        # Se envia a autocomplete los diez primeros digitos para que le agregue el cs
         return NssField.autocomplete(f'{reg}{afi}{nac}{fol}')
