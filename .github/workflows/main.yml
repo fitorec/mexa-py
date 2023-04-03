@@ -26,7 +26,7 @@ jobs:
     # de: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
     steps:
       - uses: actions/checkout@v3
-      - name: Corriendo para: Python ${{ matrix.python-version }}
+      - name: Corriendo para Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
