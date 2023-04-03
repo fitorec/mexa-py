@@ -42,4 +42,6 @@ jobs:
           # default set of ruff rules with GitHub Annotations
           ruff --format=github --target-version=py37 .
       - name: Corriendo pruebas unistarias para NSS
+        run: pwd
+        run: ls -lsha .
         run: pytest nss_test.py -s
