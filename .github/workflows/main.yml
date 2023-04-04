@@ -49,3 +49,4 @@ jobs:
           ls -lsha .
           # Corriendo prueba especifica
           pytest nss_test.py -s
+          pytest curp_test.py -s
