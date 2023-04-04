@@ -93,7 +93,7 @@ class CurpField(FieldInterface):
         if len(value) == 0:
             return 'X'
         for c in value[1:]:
-            if not c in ('A','E','I','O','U'):
+            if c not in ('A','E','I','O','U'):
                 return c
         return 'X'
 
@@ -115,7 +115,7 @@ class CurpField(FieldInterface):
             'DA', 'DAS', 'DE', 'DEL', 'DER', 'DI', 'DIE', 'DD', 'EL', 'LA',
             'LOS', 'LAS', 'LE', 'LES', 'MAC', 'MC', 'VAN', 'VON', 'Y'
         )
-        out = ' '.join([e for e in parts if not e in compuestos])
+        out = ' '.join([e for e in parts if e not in compuestos])
         return s if out == '' else out
 
     @staticmethod
@@ -145,7 +145,7 @@ class CurpField(FieldInterface):
             return parts[0]
         especiales = ('JOSE', 'J.', 'MARIA', 'MA.')
         for p in parts:
-            if not p in especiales:
+            if p not in especiales:
                 return p
         return parts[0] if len(parts) else 'X'
 
