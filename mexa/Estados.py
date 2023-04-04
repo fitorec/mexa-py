@@ -1,10 +1,9 @@
 """
 Entidades de la República Mexicana y su código ISO
 """
-from typing import TypedDict
 
 
-estados: [str, TypedDict] = {
+estados = {
   "AS": {
     "name": "Aguascalientes",
     "iso": "MX-AGU"
