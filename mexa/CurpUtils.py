@@ -165,9 +165,9 @@ class CurpTools():
     @staticmethod
     def anio(last2_digits, homo_serial):
         '''
-            Devuelve al año, agregando los primeros digitos, esto si la parte de la homoclave que
-            genera la serialización para evitar curps repetidos Si es mayor a A entonces nacio
-            despues del año 2000
+            Devuelve al año, agregando los primeros digitos, esto si la parte de la
+            homoclave que genera la serialización para evitar curps repetidos Si es
+            mayor a A entonces nacio despues del año 2000
         '''
         y = int(last2_digits)
         if math.isnan(y):
