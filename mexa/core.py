@@ -54,7 +54,6 @@ class FieldInterface:
 
 
 def year_by_last2digit (last2_digits):
-# def complete_year(last2digits):
     '''Regresa el año completo a partir de los dos últimos digitos'''
     y = int(last2_digits)
     if math.isnan(y):

@@ -15,7 +15,6 @@ class NssField(FieldInterface):
             return -1
         suma = 0
         for i in range(10):
-            # factor = 2 if (i % 2 == 1) else 1
             factor = 1 + (i % 2)
             v = int(nss[i]) * factor
             suma += (1 + v % 10) if (v > 9) else v
@@ -28,22 +27,21 @@ class NssField(FieldInterface):
         '''Devuelve true si value es valido'''
         NssField.clear_errors()
         if len(value) != 11:
-            NssField.error_msg = 'El valor debe tener una longitud de 11'
+            NssField.add_error(code = 100)
             return False
         s = re.search(r'^(\d{2})(\d{2})(\d{2})(\d{4})(\d)$', value)
         if not s:
-            NssField.error_msg = 'Formato invalido de entrada'
+            NssField.add_error(code = 100)
             return False
         # reg_imss = s.group(1)
         f_afi = year_by_last2digit(s.group(2))
         f_nac = year_by_last2digit(s.group(3))
         if int(f_afi) < int(f_nac):
-            msg = f"No se pudo afiliar({f_afi}) antes de haber nacido({f_nac})"
-            NssField.error_msg = msg
+            NssField.add_error(code = 101)
             return False
         if NssField.nss_checksum(value) == int(s.group(5)):
             return True
-        NssField.error_msg = 'Input invalido'
+        NssField.add_error(code = 102, value = s.group(5))
         return False
 
 

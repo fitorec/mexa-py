@@ -88,6 +88,9 @@ def test_generate():
     i = 0
     for c in ejemplos.data:
         curp = generate('curp', c)
+        if not validate('curp', curp):
+            print(Curp.errors[0])
+            break
         assert validate('curp', curp)
         i += 1
     print(f"\tgenerate, Generando {i} CURPs validos")

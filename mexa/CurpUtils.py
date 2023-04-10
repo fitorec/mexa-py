@@ -3,6 +3,7 @@
 Módulo que contiene un conjunto de utilerías diseñadas
 para darle soporte a la Clase: CurpField
 '''
+import math
 import datetime
 import string
 from random import randint
@@ -67,7 +68,7 @@ class CurpTools():
             'e': ['è', 'é', 'ë', 'ê'],
             'i': ['ì', 'í', 'ï', 'î'],
             'o': ['ò', 'ó', 'ö', 'ô'],
-            'u': [ 'ù','ú', 'ü', 'û'],
+            'u': ['ù', 'ú', 'ü', 'û'],
             'C': ['Ç', 'ç'],
             'X': ['ñ', 'Ñ'],
         }
@@ -160,3 +161,16 @@ class CurpTools():
             if p not in especiales:
                 return p
         return parts[0] if len(parts) else 'X'
+
+    @staticmethod
+    def anio(last2_digits, homo_serial):
+        '''
+            Devuelve al año, agregando los primeros digitos, esto si la parte de la homoclave que
+            genera la serialización para evitar curps repetidos Si es mayor a A entonces nacio
+            despues del año 2000
+        '''
+        y = int(last2_digits)
+        if math.isnan(y):
+            return None
+        centenas = 19 if homo_serial in '12345667890' else 20
+        return (centenas * 100) + y

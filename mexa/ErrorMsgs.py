@@ -1,5 +1,12 @@
 '''Contiene todos los mensajes de error'''
 
+# Errores para el NSS
+NSS_ERRORS = {
+    100 : 'El valor debe tener una longitud de 11 carácteres númericos',
+    101 : 'El año de afiliación no puede ser menor que el de nacimiento',
+    102 : 'Suma de validación incorrecta({})',
+}
+
 # Errores del CURP
 CURP_ERRORS = {
     100 : 'Valor en formato inválido',

@@ -3,7 +3,7 @@
 import re
 from random import randint
 from calendar import monthrange
-from mexa.core import FieldInterface, year_by_last2digit
+from mexa.core import FieldInterface
 from mexa.Estados import estados
 from mexa.CurpUtils import Rand, CurpTools, CONSONANTS
 from mexa.ErrorMsgs import CURP_ERRORS
@@ -65,19 +65,19 @@ class CurpField(FieldInterface):
 
 
     @staticmethod
-    def error_parte_nombre1(s):
+    def check_part_nombre1(s):
         '''Recibe la primer parte del nombre y valida esta'''
         print('parametro recibido:' + s)
         return False
 
     @staticmethod
-    def error_parte_fecha(fecha_str):
+    def check_fecha(fecha_str, homo_serial):
         '''Revisa si existe algún error en el en formato fecha AAMMDD
 
             devuelve el código de error o
             None en caso de no existir error.
         '''
-        y = year_by_last2digit(fecha_str[0:2])
+        y = CurpTools.anio(fecha_str[0:2], homo_serial)
         m = int(fecha_str[2:4])
         if m > 12:
             return 102
@@ -101,14 +101,13 @@ class CurpField(FieldInterface):
         '''Regresa True si y solo si value es un CURP valido'''
         # formato: id_nombre, f_nac, sexo, ent fed, id2_nombre, homoclave
         CurpField.clear_errors()
-        # rex = r'^([A-Z]{4})(\d{6})([H|M])([A-Z]{2})([A-Z]{3})([A-Z0-9]{2})$'
         rex = r'^([A-Z]{4})(\d{6})([H|M])([A-Z]{2})([A-Z]{3})(\S)(\d)$'
         s = re.search(rex, CurpTools.sanitizar(value))
         if not s:
             CurpField.add_error(code = 100)
             return False
         # Fecha de nacimiento.
-        error_code = CurpField.error_parte_fecha(s.group(2))
+        error_code = CurpField.check_fecha(s.group(2), s.group(6))
         if error_code is not None:
             CurpField.add_error(error_code)
         # Sexo

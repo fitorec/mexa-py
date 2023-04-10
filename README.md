@@ -1,6 +1,10 @@
-# Mexa 
+<h1>
+<span style="color:green">M</span>ex<span style="color:red">a</span>
+<small>__Mexican Power__</small>
+</h1>
 
-#### Generador y Verificador de campos __Mexican Power__.
+
+#### Generador y Verificador de campos.
 
 __Mexa__ es un validador y generador de diferentes campos, utiles para la tramitología mexicana:
 
@@ -70,9 +74,9 @@ El **Nss** esta conformado de las siguientes partes:
  - 2 Dígitos Año de nacimiento.
  - 4 Folio IMSS.
 
-### El verificador es el último dígito (el onceavo).
+### Un digito verificador (el último)
 
-Este dígito permite validar los primeros diez dígitos previos, previniendo errores de captura pues la simple alteración de un digito en la cadena de diez digitos genera un cambio en el dígito verificador.
+En la onceava posición y ultima posición se encuentra el dígito permite validar los diez dígitos previos, previniendo errores de captura pues la simple alteración de un digito en la cadena de diez digitos genera un cambio en el dígito verificador.
 
 Este digito es creado por medio de una implementación del **algoritmo Luhn**.
 
