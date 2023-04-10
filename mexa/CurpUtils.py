@@ -1,5 +1,8 @@
 # encoding: utf-8
-'''Módulo que contiene un conjunto de utilerías diseñadas para darle soporte a la Clae CurpField'''
+'''
+Módulo que contiene un conjunto de utilerías diseñadas
+para darle soporte a la Clase: CurpField
+'''
 import datetime
 import string
 from random import randint

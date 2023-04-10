@@ -114,7 +114,7 @@ class CurpField(FieldInterface):
         # Sexo
         if s.group(3) not in ('H', 'M'):
             CurpField.add_error(code = 101, value = s.group(3))
-        # Entidad Federativa, NE es no especificado el caso mas común es para extrangeros
+        # Entidad Federativa, NE es no especificado el caso común es para extrangeros
         # Ya que no nació en ninguna entidad federativa.
         if s.group(4) not in estados:
             CurpField.add_error(code = 104, value = s.group(4))

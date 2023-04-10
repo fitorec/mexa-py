@@ -22,3 +22,5 @@ def validate(type_field, value):
     if type_field == 'curp':
         return Curp.is_valid(value)
     raise TypeError(f"Tipo invalido: {type_field}")
+
+__all__ = ['generate', 'validate', 'Curp', 'Nss', 'CurpTools']
