@@ -36,30 +36,6 @@ def test_sanitizar():
 #    print("\ttest_malas_palabras")
 
 def test_checksum():
-    # curp: SABC560626MDFLRN09 <- 9 checksum(digito verificador).
-    # cs = Curp.checksum('SABC560626MDFLRN09')
-    # assert cs == '9'
-    # curp: SABC560626MDFLRN09 <- 9 checksum(digito verificador).
-    cs = Curp.checksum('AOLB851003MOCMPT01')
-    assert str(cs) == '1'
-    #
-    cs = Curp.checksum('MAMM830609HOCRRG01')
-    assert str(cs) == '1'
-
-def test_is_valid():
-    '''Revisa la funcion validate para la opción curp'''
-    i = 0
-    max = ['0', '']
-    for c in ejemplos.data:
-        is_valid = validate('curp', c['curp'])
-        assert is_valid
-        i += 1
-        if not is_valid:
-            print('\nError', c)
-            break
-    print(f"\ttest_is_valid, Fueron vvalidados {i} CURPs")
-
-def test_checksum():
     '''Revisa la funcion validate para la opción curp'''
     i = 0
     for c in curps_simples.data:
@@ -72,6 +48,19 @@ def test_checksum():
         assert int(lastChar) == cs
         i += 1
     print(f"\ttest_checksum, Fueron validados {i} checksums de CURPs")
+
+def test_is_valid():
+    '''Revisa la funcion validate para la opción curp'''
+    i = 0
+    for c in ejemplos.data:
+        is_valid = validate('curp', c['curp'])
+        assert is_valid
+        i += 1
+        if not is_valid:
+            print('\nError', c)
+            break
+    print(f"\ttest_is_valid, Fueron vvalidados {i} CURPs")
+
 
 def test_fake():
     '''Validando fake curps generadas'''
@@ -91,8 +80,8 @@ def test_validate():
     print(Curp.errors)
     # Mes (23) incorrecto
     assert not validate('curp', 'AAMR832301MGRBRN00')
-    print(Curp.errors)
-    print(f"\ttest_validate")
+    print(Curp.errors[0])
+    print("\ttest_validate")
 
 def test_generate():
     '''Validando generate curps generadas'''

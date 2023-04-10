@@ -25,7 +25,7 @@ nss = fake('nss') # Valor valido por ejemplo `48979152914`
 if validate('nss', nss): # Esto debe valer True por lo tanto mostrará el nss generado
     print(nss)
 #
-curp = fake('curp') # Valor valido por ejemplo `48979152914`
+curp = fake('curp') # Valor valido por ejemplo `AAMR740524HOCBRN08`
 if validate('curp', curp): # Esto debe valer True
     print(curp)
 
@@ -33,11 +33,11 @@ if validate('curp', curp): # Esto debe valer True
 
 # Un caso de error en donde el año de afiliación/nacimiento
 if not validate('nss', '12345678901'):
-    print(Nss.error_msg)
+    print(Nss.errors)
 
 # De forma similar probamos con un valor invalido para el curp
 if not validate('curp', '--invalido--'):
-    print(Curp.error_msg)
+    print(Curp.errors)
 #
 ```
 
