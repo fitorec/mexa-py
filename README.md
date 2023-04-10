@@ -1,16 +1,64 @@
-# Mexa Generador y Verificador de campos __Mexican Power__.
+# Mexa 
 
-## Validación y generación de campos.
+#### Generador y Verificador de campos __Mexican Power__.
+
+__Mexa__ es un validador y generador de diferentes campos, utiles para la tramitología mexicana:
+
+### Listado de campos:
+
+ - **CURP**: Clave Única de Registro de Población.
+ - **Nss**: Número de Seguro Social.
+ - **RFC**: Registro Federal de Contribuyentes(física y moral).
+ - **Tel**: Telefonos con lada MX.
 
 
 
-# Número de seguro social NSS 
+### Uso:
+
+
+
+```python
+from mexa import fake, validate, Nss, Curp
+
+# Usando el comando fake para genearar un Nss completamente aleatorio.
+nss = fake('nss') # Valor valido por ejemplo `48979152914`
+if validate('nss', nss): # Esto debe valer True por lo tanto mostrará el nss generado
+    print(nss)
+#
+curp = fake('curp') # Valor valido por ejemplo `48979152914`
+if validate('curp', curp): # Esto debe valer True
+    print(curp)
+
+
+
+# Un caso de error en donde el año de afiliación/nacimiento
+if not validate('nss', '12345678901'):
+    print(Nss.error_msg)
+
+# De forma similar probamos con un valor invalido para el curp
+if not validate('curp', '--invalido--'):
+    print(Curp.error_msg)
+#
+```
+
+### Instalación.
+
+
+El paquete esta disponible en **pypi** (__<https://pypi.org/project/mexa/>__), para puedes instalarlo desde `pip`:
+
+```
+# Instalación de Mexa.
+pip install mexa
+```
+
+
+# Número de seguro social Nss
 
 El numero de seguro social de México se conforma de 11 dígitos:
 
 ## Formato.
 
-El **NSS** esta conformado de las siguientes partes:
+El **Nss** esta conformado de las siguientes partes:
 
 
 ![Formato img](https://raw.githubusercontent.com/gist/fitorec/82a3e27fae3bab709a07c19c71c3a8d4/raw/0e545684368cbe536e001e3d7e8a1fe015036748/nss_checksum.svg)

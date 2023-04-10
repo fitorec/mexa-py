@@ -1,153 +1,16 @@
 # encoding: utf-8
 '''Clase encargada del CURP'''
 import re
-import datetime
 from random import randint
 from calendar import monthrange
-from mexa.core import FieldInterface
+from mexa.core import FieldInterface, year_by_last2digit
 from mexa.Estados import estados
-# class TokenCurp(object):
-#     pass
-
-
-class Rand():
-    '''Devuelve aleatoriamente diferentes elementos'''
-    @staticmethod
-    def digito():
-        '''Regresa un valor aleatorio entre 0 a 9'''
-        return str(randint(0, 9))
-
-    @staticmethod
-    def vocal():
-        '''Regresa un valor aleatorio entre 0 a 9'''
-        vocales = 'AEIOU'
-        return vocales[randint(0, len(vocales) - 1)]
-
-    @staticmethod
-    def consonante():
-        '''Regresa un valor aleatorio entre 0 a 9'''
-        consonantes = 'BCDFGHJKLMNPQRSTVWXYZ'
-        return consonantes[randint(0, len(consonantes) - 1)]
-
-    @staticmethod
-    def estado():
-        '''Devuelve un estado aleatorio'''
-        edos = estados.keys()
-        return edos[randint(0, len(edos) - 1)]
-
-    @staticmethod
-    def fecha():
-        '''Devuelve un estado aleatorio'''
-        y_actual = datetime.date.today().year
-        y = randint(y_actual - 80, y_actual - 10)
-        m = randint(1, 12)
-        dias_info = monthrange(y, m)
-        d = randint(1, dias_info[1])
-        return str(y)[2:4] + str(m).rjust(2, '0') + str(d).rjust(2, '0')
+from mexa.CurpUtils import Rand, CurpTools, CONSONANTS
+from mexa.ErrorMsgs import CURP_ERRORS
 
 class CurpField(FieldInterface):
-    '''Clase que modela el CURP'''
-    @staticmethod
-    def sanitizar(value):
-        '''Sanitiza un string'''
-        remplazos = {
-            'A': ['Ã', 'À', 'Á', 'Ä', 'Â'],
-            'E': ['È', 'É', 'Ë', 'Ê'],
-            'I': ['Ì', 'Í', 'Ï', 'Î'],
-            'O': ['Ò', 'Ó', 'Ö', 'Ô'],
-            'U': ['Ù', 'Ú', 'Ü', 'Û'],
-            'a': ['ã', 'à', 'á', 'ä', 'â'],
-            'e': ['è', 'é', 'ë', 'ê'],
-            'i': ['ì', 'í', 'ï', 'î'],
-            'o': ['ò', 'ó', 'ö', 'ô'],
-            'u': [ 'ù','ú', 'ü', 'û'],
-            'C': ['Ç', 'ç'],
-            'x': ['ñ', 'Ñ'],
-        }
-        out = ''
-        keys = remplazos.keys()
-        for char in value:
-            insertado = False
-            for key in keys:
-                if char in remplazos[key]:
-                    insertado = True
-                    out += key
-                    break
-            if not insertado:
-                out += char
-        return out.upper()
-
-    @staticmethod
-    def primer_vocal_interna(value):
-        '''Sanitiza un string'''
-        if len(value) == 0:
-            return 'X'
-        for c in value[1:]:
-            if c in ('A','E','I','O','U'):
-                return c
-        return 'X'
-
-    @staticmethod
-    def primer_consonante_interna(value):
-        '''Sanitiza un string'''
-        if len(value) == 0:
-            return 'X'
-        for c in value[1:]:
-            if c not in ('A','E','I','O','U'):
-                return c
-        return 'X'
-
-    @staticmethod
-    def primer_letra(s):
-        '''Sanitiza un string'''
-        return s[0] if len(s) else 'X'
-
-    # Cuando el nombre o los apellidos son compuestos y tienen
-    # proposiciones, contracciones o conjunciones, se deben eliminar esas palabras
-    # a la hora de calcular el CURP.
-    @staticmethod
-    def quitar_conjunciones(s):
-        '''Devuelve el nombre de pila'''
-        parts = CurpField.sanitizar(s).split(' ')
-        if len(parts) == 1:
-            return parts[0]
-        compuestos = (
-            'DA', 'DAS', 'DE', 'DEL', 'DER', 'DI', 'DIE', 'DD', 'EL', 'LA',
-            'LOS', 'LAS', 'LE', 'LES', 'MAC', 'MC', 'VAN', 'VON', 'Y'
-        )
-        out = ' '.join([e for e in parts if e not in compuestos])
-        return s if out == '' else out
-
-    @staticmethod
-    def limpiar_mal_palabra(nombre):
-        '''Quita una mala palabra'''
-        malasPalabras = [
-          'BACA', 'BAKA', 'BUEI', 'BUEY', 'CACA', 'CACO', 'CAGA', 'CAGO', 'CAKA',
-          'CAKO', 'COGE', 'COGI', 'COJA', 'COJE', 'COJI', 'COJO', 'COLA', 'CULO',
-          'FALO', 'FETO', 'GETA', 'GUEI', 'GUEY', 'JETA', 'JOTO', 'KACA', 'KACO',
-          'KAGA', 'KAGO', 'KAKA', 'KAKO', 'KOGE', 'KOGI', 'KOJA', 'KOJE', 'KOJI',
-          'KOJO', 'KOLA', 'KULO', 'LILO', 'LOCA', 'LOCO', 'LOKA', 'LOKO', 'MAME',
-          'MAMO', 'MEAR', 'MEAS', 'MEON', 'MIAR', 'MION', 'MOCO', 'MOKO', 'MULA',
-          'MULO', 'NACA', 'NACO', 'PEDA', 'PEDO', 'PENE', 'PIPI', 'PITO', 'POPO',
-          'PUTA', 'PUTO', 'QULO', 'RATA', 'ROBA', 'ROBE', 'ROBO', 'RUIN', 'SENO',
-          'TETA', 'VACA', 'VAGA', 'VAGO', 'VAKA', 'VUEI', 'VUEY', 'WUEI', 'WUEY'
-        ]
-        if nombre not in malasPalabras:
-            return nombre
-        return f'{nombre[0]}X{nombre[2:4]}'
-
-
-    @staticmethod
-    def nombre_de_pila(nombre):
-        '''Devuelve el nombre de pila'''
-        parts = CurpField.quitar_conjunciones(nombre).split(' ')
-        if len(parts) <= 1:
-            return parts[0]
-        especiales = ('JOSE', 'J.', 'MARIA', 'MA.')
-        for p in parts:
-            if p not in especiales:
-                return p
-        return parts[0] if len(parts) else 'X'
+    '''CurpField'''
+    errorMsgs = CURP_ERRORS
 
     @staticmethod
     def gen_id_nombre(data):
@@ -155,25 +18,26 @@ class CurpField(FieldInterface):
         out = ['X','X','X','X']
         # Tomando la parte del primer apellido (paterno)
         if 'primer_ap' in data:
-            primer_ap = CurpField.quitar_conjunciones(data['primer_ap'])
-            out[0] = CurpField.primer_letra(primer_ap)
-            out[1] = CurpField.primer_vocal_interna(primer_ap)
+            primer_ap = CurpTools.quitar_conjunciones(data['primer_ap'])
+            out[0] = CurpTools.primer_letra(primer_ap)
+            out[1] = CurpTools.primer_vocal_interna(primer_ap)
         else:
             out[0] = Rand.consonante()
             out[1] = Rand.vocal()
         # Tomando la parte del segundo apellido (materno)
         if 'segundo_ap' in data:
-            segundo_ap = CurpField.quitar_conjunciones(data['segundo_ap'])
-            out[2] = CurpField.primer_letra(segundo_ap)
+            segundo_ap = CurpTools.quitar_conjunciones(data['segundo_ap'])
+            out[2] = CurpTools.primer_letra(segundo_ap)
         else:
             out[2] = Rand.consonante()
         # Tomando la parte del nombre
         if 'nombre' in data:
-            nombre = CurpField.nombre_de_pila(data['nombre'])
-            out[3] = CurpField.primer_letra(nombre)
+            nombre = CurpTools.nombre_de_pila(data['nombre'])
+            out[3] = CurpTools.primer_letra(nombre)
         else:
             out[3] = Rand.consonante()
-        return CurpField.limpiar_mal_palabra(''.join(out))
+        return CurpTools.limpiar_mal_palabra(''.join(out))
+
 
     @staticmethod
     def gen_id2_nombre(data):
@@ -181,34 +45,91 @@ class CurpField(FieldInterface):
         out = ['X','X','X']
         # Tomando la parte del primer apellido (paterno)
         if 'primer_ap' in data:
-            primer_ap = CurpField.quitar_conjunciones(data['primer_ap'])
-            out[0] = CurpField.primer_consonante_interna(primer_ap)
+            primer_ap = CurpTools.quitar_conjunciones(data['primer_ap'])
+            out[0] = CurpTools.primer_consonante_interna(primer_ap)
         else:
             out[0] = Rand.consonante()
         # Tomando la parte del segundo apellido (materno)
         if 'segundo_ap' in data:
-            segundo_ap = CurpField.quitar_conjunciones(data['segundo_ap'])
-            out[1] = CurpField.primer_consonante_interna(segundo_ap)
+            segundo_ap = CurpTools.quitar_conjunciones(data['segundo_ap'])
+            out[1] = CurpTools.primer_consonante_interna(segundo_ap)
         else:
             out[1] =  Rand.consonante()
         # Tomando la parte del nombre
         if 'nombre' in data:
-            nombre = CurpField.nombre_de_pila(data['nombre'])
-            out[2] = CurpField.primer_consonante_interna(nombre)
+            nombre = CurpTools.nombre_de_pila(data['nombre'])
+            out[2] = CurpTools.primer_consonante_interna(nombre)
         else:
             out[2] = Rand.consonante()
-        return CurpField.limpiar_mal_palabra(''.join(out))
+        return CurpTools.sanitizar(''.join(out))
+
+
+    @staticmethod
+    def error_parte_nombre1(s):
+        '''Recibe la primer parte del nombre y valida esta'''
+        print('parametro recibido:' + s)
+        return False
+
+    @staticmethod
+    def error_parte_fecha(fecha_str):
+        '''Revisa si existe algún error en el en formato fecha AAMMDD
+
+            devuelve el código de error o
+            None en caso de no existir error.
+        '''
+        y = year_by_last2digit(fecha_str[0:2])
+        m = int(fecha_str[2:4])
+        if m > 12:
+            return 102
+        dias_mes = monthrange(y, m)[1]
+        d = int(fecha_str[4:6])
+        if d > dias_mes:
+            return 103
+        return None
+
+    @staticmethod
+    def checksum(curp: str) -> int:
+        """
+        Calculate the checksum for the mexican CURP.
+        """
+        chars = "0123456789ABCDEFGHIJKLMNNOPQRSTUVWXYZ"
+        suma = sum([(18 - i) * chars.index(curp[i]) for i in range(17)])
+        return (10 - (suma % 10)) % 10
 
     @staticmethod
     def is_valid(value):
         '''Regresa True si y solo si value es un CURP valido'''
         # formato: id_nombre, f_nac, sexo, ent fed, id2_nombre, homoclave
-        rex = r'^([A-Z]{4})(\d{6})([H|M])([A-Z]{2})([A-Z]{3})([A-Z0-9]{2})$'
-        s = re.search(rex, CurpField.sanitizar(value))
+        CurpField.clear_errors()
+        # rex = r'^([A-Z]{4})(\d{6})([H|M])([A-Z]{2})([A-Z]{3})([A-Z0-9]{2})$'
+        rex = r'^([A-Z]{4})(\d{6})([H|M])([A-Z]{2})([A-Z]{3})(\S)(\d)$'
+        s = re.search(rex, CurpTools.sanitizar(value))
         if not s:
-            CurpField.error_msg = 'Formato invalido de entrada'
+            CurpField.add_error(code = 100)
             return False
-        return True
+        # Fecha de nacimiento.
+        error_code = CurpField.error_parte_fecha(s.group(2))
+        if error_code is not None:
+            CurpField.add_error(error_code)
+        # Sexo
+        if s.group(3) not in ('H', 'M'):
+            CurpField.add_error(code = 101, value = s.group(3))
+        # Entidad Federativa, NE es no especificado el caso mas común es para extrangeros
+        # Ya que no nació en ninguna entidad federativa.
+        if s.group(4) not in estados:
+            CurpField.add_error(code = 104, value = s.group(4))
+        # La parte del nombre esta conformada por la 1er consonante interna del:
+        # primer apellido, 2d apellido, nombre pila
+        par_nombre = s.group(5)
+        for c in par_nombre:
+            if c not in CONSONANTS:
+                CurpField.add_error(code = 105, value = c)
+        curp_val = s.group(0)
+        cs = CurpField.checksum(curp_val)
+        if cs != int(s.group(7)):
+            CurpField.add_error(code = 106, value = curp_val)
+        return not CurpField.has_errors()
+
 
     @staticmethod
     def gen_fecha_nacimiento(data):
@@ -216,6 +137,7 @@ class CurpField(FieldInterface):
         if 'f_nacimiento' in data and len(data['f_nacimiento']) == 6:
             return data['f_nacimiento']
         return Rand.fecha()
+
 
     @staticmethod
     def gen_sexo(data):
@@ -235,6 +157,7 @@ class CurpField(FieldInterface):
             return data['entidad_federativa']
         return 'OC'
 
+
     @staticmethod
     def generate(data):
         '''Devuelve el valor a partir de los metadatos recibidos en data'''
@@ -243,5 +166,7 @@ class CurpField(FieldInterface):
         sexo = CurpField.gen_sexo(data)
         ent_fed = CurpField.gen_entidad_federativa(data)
         id2_nombre = CurpField.gen_id2_nombre(data)
-        homoclave = '00'
-        return f'{id_nombre}{fecha}{sexo}{ent_fed}{id2_nombre}{homoclave}'
+        # Generando el curp y su suma de verificación (cs).
+        curp = f'{id_nombre}{fecha}{sexo}{ent_fed}{id2_nombre}0'
+        cs = str(CurpField.checksum(curp))
+        return f'{curp}{cs}'
