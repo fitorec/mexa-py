@@ -31,7 +31,7 @@ class Partes:
             print(f"Exeption: {e}")
             return None
 
-    def value(self, index):
+    def value(self):
         '''Devuelve un grupo 0 que contiene el valor empatado.'''
         return self.get(0)
 
