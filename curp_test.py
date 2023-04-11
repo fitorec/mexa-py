@@ -1,6 +1,6 @@
 '''Pruebas unitarias sobre el CURP'''
+import datetime
 from mexa import fake, validate, generate, Curp, CurpTools
-# .sanitizar(''.join(out))
 from test_data import curps as ejemplos
 from test_data import curps_simples
 
@@ -35,14 +35,18 @@ def test_sanitizar():
 #    assert Curp.limpiar_mal_palabra('WUEY') == 'WXEY'
 #    print("\ttest_malas_palabras")
 
+
 def test_checksum():
     '''Revisa la funcion validate para la opción curp'''
     i = 0
     for c in curps_simples.data:
         is_valid = validate('curp', c)
-        assert is_valid
         if not is_valid:
+            print(f'\n\n\nError en la validación de {c}')
+            print(CurpTools.sanitizar(c))
+            print(Curp.errors)
             break
+        assert is_valid
         cs = Curp.checksum(c)
         lastChar = str(c[len(c) - 1])
         assert int(lastChar) == cs
@@ -127,7 +131,60 @@ def test_gen_id_nombre():
         assert Curp.is_valid(curp)
     # print(Curp.error_msg)
 
-def _test_validate_con_match():
+def test_validate_con_match():
     '''Realiza la validación a partir del match recibido'''
     match = {"nombre" : "MIGUEL ANGEL"}
-    assert  validate('curp', value = "BAUM690216HMSLRG18", match = match)
+    curp = 'BAUM690216HMSLRG18'
+    assert validate('curp', value = curp, match = match)
+    # El siguiente debe ser
+    match = {"nombre" : "Bibiana"}
+    bibiana_curp = Curp.generate(match)
+    assert validate('curp', value = bibiana_curp, match = match)
+    # El curp de Bibiana no debería ser valido para Viviana
+    match = {"nombre" : "Viviana"}
+    assert not validate('curp', value = bibiana_curp, match = match)
+    print(Curp.errors)
+
+def test_validate_con_match_fecha():
+    ''' Validando una fecha en el match : 1985-02-14'''
+    curp_valido = 'AAMR850214MGRBRN01'
+    # Pasando la fecha en el formato que lo contiene el curp (AAMMDD)
+    match = {"fecha_nacimiento" : "850214"}
+    assert validate('curp', value = curp_valido, match = match)
+    # Pasando la fecha en formato ISO
+    match = {"fecha_nacimiento" : "1985-02-14"}
+    assert validate('curp', value = curp_valido, match = match)
+    # A partir de un objeto de datos
+    match = {"fecha_nacimiento" : datetime.datetime(1985, 2, 14)}
+    assert validate('curp', value = curp_valido, match = match)
+    # El caso contrario debería generar error:
+    match = {"fecha_nacimiento" : "830214"}
+    assert not validate('curp', value = curp_valido, match = match)
+    # Cambiando el mes
+    match = {"fecha_nacimiento" : "1985-06-14"}
+    assert not validate('curp', value = curp_valido, match = match)
+    # Cambiando el día.
+    match = {"fecha_nacimiento" : datetime.datetime(1985, 2, 4)}
+    assert not validate('curp', value = curp_valido, match = match)
+
+
+
+def test_validate_con_match_edo():
+    ''' Validando la entidad federativa'''
+    # Caso chabelo que nacio en el "Extrangero" (NE)
+    curp = 'LORX350217HNEPDV08'
+    match = {"entidad_federativa" : "Extranjero"} # Normal
+    assert validate('curp', value = curp, match = match)
+    match = {"entidad_federativa" : "NE"} # Con abreviatura
+    assert validate('curp', value = curp, match = match)
+    match = {"entidad_federativa" : "Colima"} # Error edo incorrecto
+    assert not validate('curp', value = curp, match = match)
+    # Caso Enrique Peña Nieto que nacio en el "Estado de México" (NE)
+    curp = 'PXNE660720HMCXTN06'
+    match = {"entidad_federativa" : "Estado de México"} # Normal
+    assert validate('curp', value = curp, match = match)
+    match = {"entidad_federativa" : "MC"} # Con abreviatura
+    assert validate('curp', value = curp, match = match)
+    match = {"entidad_federativa" : "NT"} # Error edo incorrecto(abreviado)
+    assert not validate('curp', value = curp, match = match)
+    # print(Curp.errors)

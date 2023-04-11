@@ -19,6 +19,8 @@ class Partes:
         self.re_obj = re.search(self.regex, value)
         if self.re_obj:
             self.error = False
+        else:
+            self.error = True
 
     def get(self, index):
         '''Devuelve un grupo dentro de la expresión regular'''

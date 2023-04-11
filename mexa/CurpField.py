@@ -1,6 +1,5 @@
 # encoding: utf-8
 '''Clase encargada del CURP'''
-from random import randint
 from calendar import monthrange
 from mexa.core import FieldInterface, Partes
 from mexa.Estados import estados
@@ -73,13 +72,6 @@ class CurpField(FieldInterface):
             out[2] = Rand.consonante()
         return CurpTools.sanitizar(''.join(out))
 
-
-    @staticmethod
-    def check_part_nombre1(s):
-        '''Recibe la primer parte del nombre y valida esta'''
-        print('parametro recibido:' + s)
-        return False
-
     @staticmethod
     def check_fecha(fecha_str, homo_serial):
         '''Revisa si existe algún error en el en formato fecha AAMMDD
@@ -105,6 +97,58 @@ class CurpField(FieldInterface):
         chars = "0123456789ABCDEFGHIJKLMNNOPQRSTUVWXYZ"
         suma = sum([(18 - i) * chars.index(curp[i]) for i in range(17)])
         return (10 - (suma % 10)) % 10
+
+
+    @staticmethod
+    def find_match_error_nombre(nombre, curp):
+        '''Valida si para el nombre el curp es correcto'''
+        if curp[3] != CurpTools.primer_letra(nombre):
+            CurpField.add_error(201)
+        if curp[15] != CurpTools.primer_consonante_interna(nombre):
+            CurpField.add_error(202)
+
+    @staticmethod
+    def find_match_error_primer_ap(primer_ap, curp):
+        '''Valida si para el primer apellido el curp es correcto'''
+        if curp[0] != CurpTools.primer_letra(primer_ap):
+            CurpField.add_error(203)
+        if curp[1] != CurpTools.primer_vocal_interna(primer_ap):
+            CurpField.add_error(204)
+        if curp[10] != CurpTools.primer_consonante_interna(primer_ap):
+            CurpField.add_error(205)
+
+    @staticmethod
+    def find_match_error_segundo_ap(segundo_ap, curp):
+        '''Valida si para el primer apellido el curp es correcto'''
+        if curp[2] != CurpTools.primer_letra(segundo_ap):
+            CurpField.add_error(206)
+        if curp[14] != CurpTools.primer_consonante_interna(segundo_ap):
+            CurpField.add_error(207)
+
+    @staticmethod
+    def find_match_error(match):
+        '''Devuelve el código de error en el match'''
+        curp = partes.value()
+        if 'nombre' in match:
+            nombre = CurpTools.nombre_de_pila(CurpTools.sanitizar(match['nombre']))
+            CurpField.find_match_error_nombre(nombre, curp)
+        if 'primer_ap' in match:
+            primer_ap = CurpTools.quitar_conjunciones(match['primer_ap'])
+            CurpField.find_match_error_primer_ap(primer_ap, curp)
+        if 'segundo_ap' in match:
+            segundo_ap = CurpTools.quitar_conjunciones(match['segundo_ap'])
+            CurpField.find_match_error_segundo_ap(segundo_ap, curp)
+        if 'fecha_nacimiento' in match:
+            fecha6digits = CurpTools.fecha_to_6digits(match['fecha_nacimiento'])
+            if partes.get(FECHA_NACIMIENTO) != fecha6digits:
+                CurpField.add_error(code = 208, value = match['fecha_nacimiento'])
+        if 'sexo' in match:
+            if partes.get(SEXO) != match['sexo']:
+                CurpField.add_error(code = 209, value = match['sexo'])
+        if 'entidad_federativa' in match:
+            edo2chars = CurpTools.estado_to_2chars(match['entidad_federativa'])
+            if partes.get(ENTIDAD_FEDERATIVA) != edo2chars:
+                CurpField.add_error(code = 210, value = match['entidad_federativa'])
 
     @staticmethod
     def is_valid(value, match = None):
@@ -136,19 +180,24 @@ class CurpField(FieldInterface):
             if c not in CONSONANTS:
                 CurpField.add_error(code = 105, value = c)
         curp_val = partes.value()
-        cs = CurpField.checksum(curp_val)
-        if cs != int(partes.get(7)):
-            CurpField.add_error(code = 106, value = curp_val)
+        # Valida el match.
         if  match is not None:
             # Falta agregar la implementación del match
-            CurpField.add_error(code = 100)
+            code = CurpField.find_match_error(match)
+            if code is not None:
+                CurpField.add_error(code)
+            # CurpField.add_error(code = 100)
+        # Checksum
+        cs = CurpField.checksum(curp_val)
+        if cs != int(partes.get(CHECKSUM)):
+            CurpField.add_error(code = 106, value = curp_val)
         return not CurpField.has_errors()
 
     @staticmethod
     def gen_fecha_nacimiento(data):
         '''Genera la fecha de nacimiento'''
-        if 'f_nacimiento' in data and len(data['f_nacimiento']) == 6:
-            return data['f_nacimiento']
+        if 'fecha_nacimiento' in data and len(data['fecha_nacimiento']) == 6:
+            return data['fecha_nacimiento']
         return Rand.fecha()
 
 
@@ -160,15 +209,14 @@ class CurpField(FieldInterface):
                 return 'H'
             if data['sexo'] in ('MUJER', 'FEMENINO', 'F', 'M'):
                 return 'M'
-        index = randint(0, 9) % 2
-        return ['H', 'M'][index]
+        return Rand.sexo()
 
     @staticmethod
     def gen_entidad_federativa(data):
         '''Genera el sexo'''
         if 'entidad_federativa' in data:
             return data['entidad_federativa']
-        return 'OC'
+        return Rand.estado()
 
 
     @staticmethod

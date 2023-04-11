@@ -3,10 +3,11 @@
 Módulo que contiene un conjunto de utilerías diseñadas
 para darle soporte a la Clase: CurpField
 '''
+import re
 import math
 import datetime
 import string
-from random import randint
+from random import randint, choice
 from calendar import monthrange
 from mexa.Estados import estados
 
@@ -26,20 +27,23 @@ class Rand():
     @staticmethod
     def vocal():
         '''Regresa un valor aleatorio entre 0 a 9'''
-        return VOWELS[randint(0, len(VOWELS) - 1)]
+        return choice(VOWELS)
 
 
     @staticmethod
     def consonante():
         '''Regresa un valor aleatorio entre 0 a 9'''
-        return CONSONANTS[randint(0, len(CONSONANTS) - 1)]
+        return choice(CONSONANTS)
 
+    @staticmethod
+    def sexo():
+        '''Devuelve el sexo en modo aleatorio'''
+        return choice(['H', 'M'])
 
     @staticmethod
     def estado():
         '''Devuelve un estado aleatorio'''
-        edos = estados.keys()
-        return edos[randint(0, len(edos) - 1)]
+        return choice(list(estados.keys()))
 
 
     @staticmethod
@@ -174,3 +178,27 @@ class CurpTools():
             return None
         centenas = 19 if homo_serial in '12345667890' else 20
         return (centenas * 100) + y
+
+    @staticmethod
+    def fecha_to_6digits(fecha):
+        '''Recibe una fecha y la normaliza a formato AAMMDD'''
+        if isinstance(fecha, datetime.date):
+            fecha = fecha.strftime("%Y-%m-%d")
+        if not isinstance(fecha, str):
+            return None
+        if re.match(r'^\d{6}$', fecha):
+            return fecha
+        if not re.match(r'^\d{4}-\d{2}-\d{2}$', fecha):
+            return None
+        return f'{fecha[2:4]}{fecha[5:7]}{fecha[8:10]}'
+
+    @staticmethod
+    def estado_to_2chars(edo):
+        '''Recibe el estado devuelve el código del mismo a dos caracteres'''
+        if len(edo) != 2:
+            try:
+                index = list(estados.values()).index(edo)
+                edo = list(estados.keys())[index]  # Prints george
+            except ValueError:
+                return None
+        return edo

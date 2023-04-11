@@ -23,7 +23,7 @@ def _test_validate_con_match():
     #nss_data = {
     #    "region_imss" : "72",
     #    "folio_imss" : "0804",
-    #    "f_nacimiento": "56",
+    #    "fecha_nacimiento": "56",
     #    "f_afiliacion": "79",
     #}
     # assert  validate('nss', value = "BAUM690216HMSLRG18", match = match)

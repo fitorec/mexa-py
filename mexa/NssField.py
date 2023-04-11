@@ -70,20 +70,20 @@ class NssField(FieldInterface):
         '''
         Devuelve un arreglo con los años de nacimiento y afiliacion
 
-        :param dic data: Los datos el cual puede contener f_nacimiento
+        :param dic data: Los datos el cual puede contener fecha_nacimiento
                         y f_afiliacion de existir deberán ser tomados
                         en cuenta estos valores.
-        :return: Arreglo ordenado de la forma [f_nacimiento, f_afiliacion]
+        :return: Arreglo ordenado de la forma [fecha_nacimiento, f_afiliacion]
         '''
         if data is None:
             data  = {}
-        if 'f_nacimiento' in data and 'f_afiliacion' in data:
+        if 'fecha_nacimiento' in data and 'f_afiliacion' in data:
             return [
-              year_by_last2digit(data['f_nacimiento']),
+              year_by_last2digit(data['fecha_nacimiento']),
               year_by_last2digit(data['f_afiliacion'])
             ]
-        if 'f_nacimiento' in data:
-            nac = year_by_last2digit(data['f_nacimiento'])
+        if 'fecha_nacimiento' in data:
+            nac = year_by_last2digit(data['fecha_nacimiento'])
             while True:
                 afil = year_by_last2digit(random.randrange(0, 99))
                 if afil >= nac:

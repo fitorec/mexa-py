@@ -18,7 +18,7 @@ estados = {
   "GR": "Guerrero",
   "HG": "Hidalgo",
   "JC": "Jalisco",
-  "MC": "México",
+  "MC": "Estado de México",
   "MN": "Michoacán de Ocampo",
   "MS": "Morelos",
   "NT": "Nayarit",

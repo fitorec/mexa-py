@@ -67,7 +67,7 @@ data = {
     "nombre" : "Juan Manuel",
     "primer_ap": "Lopéz",
     "segundo_ap": "Lopéz",
-    "f_nacimiento": "780609", # 9 de junio del 1978
+    "fecha_nacimiento": "780609", # 9 de junio del 1978
     "sexo": "H", # H: hombre, M: Mujer,
     "entidad_federativa": "SP" # San Luis Potosí
 }
@@ -77,7 +77,7 @@ print('curp generado con todos los datos recibidos', curp_str)
 nss_data = {
     "region_imss" : "72",
     "folio_imss" : "0804",
-    "f_nacimiento": "56",
+    "fecha_nacimiento": "56",
     "f_afiliacion": "79",
 }
 nss_str = generate('nss', nss_data) # resultado: 72795608040
