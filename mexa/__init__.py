@@ -15,12 +15,12 @@ def fake(type_field):
     '''faker'''
     return generate(type_field, {})
 
-def validate(type_field, value):
+def validate(type_field, value, match = None):
     '''Valida el type_field el valor'''
     if type_field == 'nss':
-        return Nss.is_valid(value)
+        return Nss.is_valid(value, match)
     if type_field == 'curp':
-        return Curp.is_valid(value)
+        return Curp.is_valid(value, match)
     raise TypeError(f"Tipo invalido: {type_field}")
 
 __all__ = ['generate', 'validate', 'Curp', 'Nss', 'CurpTools']

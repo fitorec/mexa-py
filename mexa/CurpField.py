@@ -1,16 +1,26 @@
 # encoding: utf-8
 '''Clase encargada del CURP'''
-import re
 from random import randint
 from calendar import monthrange
-from mexa.core import FieldInterface
+from mexa.core import FieldInterface, Partes
 from mexa.Estados import estados
 from mexa.CurpUtils import Rand, CurpTools, CONSONANTS
-from mexa.ErrorMsgs import CURP_ERRORS
+from mexa.ErrorMsgs import CURP_ERRORS as ERRORS
+
+
+# Expresión regular para validar y las partes(groups) que conforman el CURP
+partes = Partes(r'^([A-Z]{4})(\d{6})([H|M])([A-Z]{2})([A-Z]{3})(\S)(\d)$')
+ID_NOMBRE = 1
+FECHA_NACIMIENTO = 2
+SEXO = 3
+ENTIDAD_FEDERATIVA = 4
+ID2_NOMBRE = 5
+HOMOCLAVE = 6
+CHECKSUM = 7
 
 class CurpField(FieldInterface):
     '''CurpField'''
-    errorMsgs = CURP_ERRORS
+    errorMsgs = ERRORS
 
     @staticmethod
     def gen_id_nombre(data):
@@ -97,38 +107,42 @@ class CurpField(FieldInterface):
         return (10 - (suma % 10)) % 10
 
     @staticmethod
-    def is_valid(value):
+    def is_valid(value, match = None):
         '''Regresa True si y solo si value es un CURP valido'''
-        # formato: id_nombre, f_nac, sexo, ent fed, id2_nombre, homoclave
         CurpField.clear_errors()
-        rex = r'^([A-Z]{4})(\d{6})([H|M])([A-Z]{2})([A-Z]{3})(\S)(\d)$'
-        s = re.search(rex, CurpTools.sanitizar(value))
-        if not s:
+        #
+        partes.load(CurpTools.sanitizar(value))
+        if partes.error:
             CurpField.add_error(code = 100)
             return False
         # Fecha de nacimiento.
-        error_code = CurpField.check_fecha(s.group(2), s.group(6))
+        error_code = CurpField.check_fecha(
+            partes.get(FECHA_NACIMIENTO),
+            partes.get(HOMOCLAVE)
+        )
         if error_code is not None:
             CurpField.add_error(error_code)
         # Sexo
-        if s.group(3) not in ('H', 'M'):
-            CurpField.add_error(code = 101, value = s.group(3))
+        if partes.get(SEXO) not in ('H', 'M'):
+            CurpField.add_error(code = 101, value = partes.get(SEXO))
         # Entidad Federativa, NE es no especificado el caso común es para extrangeros
         # Ya que no nació en ninguna entidad federativa.
-        if s.group(4) not in estados:
-            CurpField.add_error(code = 104, value = s.group(4))
+        if partes.get(ENTIDAD_FEDERATIVA) not in estados:
+            CurpField.add_error(code = 104, value = partes.get(ENTIDAD_FEDERATIVA))
         # La parte del nombre esta conformada por la 1er consonante interna del:
         # primer apellido, 2d apellido, nombre pila
-        par_nombre = s.group(5)
+        par_nombre = partes.get(ID2_NOMBRE)
         for c in par_nombre:
             if c not in CONSONANTS:
                 CurpField.add_error(code = 105, value = c)
-        curp_val = s.group(0)
+        curp_val = partes.value()
         cs = CurpField.checksum(curp_val)
-        if cs != int(s.group(7)):
+        if cs != int(partes.get(7)):
             CurpField.add_error(code = 106, value = curp_val)
+        if  match is not None:
+            # Falta agregar la implementación del match
+            CurpField.add_error(code = 100)
         return not CurpField.has_errors()
-
 
     @staticmethod
     def gen_fecha_nacimiento(data):

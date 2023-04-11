@@ -1,11 +1,20 @@
 # encoding: utf-8
 '''Clase encargada del Nss'''
-import re
 import random
-from mexa.core import FieldInterface, year_by_last2digit
+from mexa.core import FieldInterface, year_by_last2digit, Partes
+from mexa.ErrorMsgs import NSS_ERRORS as ERRORS
+
+partes = Partes(r'^(\d{2})(\d{2})(\d{2})(\d{4})(\d)$')
+REGION_IMSS = 1
+ANIO_ALTA = 2
+ANIO_NACIMIENTO = 3
+FOLIO_IMSS = 4
+CHECKSUM = 5
 
 class NssField(FieldInterface):
     '''Clase que modela el Nss'''
+    errorMsgs = ERRORS
+    # region_imss, anio_alta, anio_nacimiento, folio_imss, checksum
 
     @staticmethod
     def nss_checksum(nss):
@@ -23,27 +32,29 @@ class NssField(FieldInterface):
 
 
     @staticmethod
-    def is_valid(value):
+    def is_valid(value, match = None):
         '''Devuelve true si value es valido'''
         NssField.clear_errors()
         if len(value) != 11:
             NssField.add_error(code = 100)
             return False
-        s = re.search(r'^(\d{2})(\d{2})(\d{2})(\d{4})(\d)$', value)
-        if not s:
+        partes.load(value)
+        if partes.error:
             NssField.add_error(code = 100)
             return False
-        # reg_imss = s.group(1)
-        f_afi = year_by_last2digit(s.group(2))
-        f_nac = year_by_last2digit(s.group(3))
+        # revisando los años de afiliación/nacimiento
+        f_afi = year_by_last2digit(partes.get(ANIO_ALTA))
+        f_nac = year_by_last2digit(partes.get(ANIO_NACIMIENTO))
         if int(f_afi) < int(f_nac):
             NssField.add_error(code = 101)
             return False
-        if NssField.nss_checksum(value) == int(s.group(5)):
-            return True
-        NssField.add_error(code = 102, value = s.group(5))
-        return False
-
+        # revisando el checksum
+        cs = NssField.nss_checksum(value)
+        if cs != int(partes.get(CHECKSUM)):
+            NssField.add_error(code = 102, value = partes.get(CHECKSUM))
+            return False
+        # Falta agregar la implementación del match
+        return match is None
 
     @staticmethod
     def autocomplete(value):

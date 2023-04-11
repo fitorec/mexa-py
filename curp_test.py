@@ -126,3 +126,8 @@ def test_gen_id_nombre():
             break
         assert Curp.is_valid(curp)
     # print(Curp.error_msg)
+
+def _test_validate_con_match():
+    '''Realiza la validación a partir del match recibido'''
+    match = {"nombre" : "MIGUEL ANGEL"}
+    assert  validate('curp', value = "BAUM690216HMSLRG18", match = match)

@@ -1,8 +1,39 @@
 # encoding: utf-8
 ''' Se encarga de implementar funciones para el nucleo de la aplicacion. '''
+import re
 import math
 import datetime
 
+
+class Partes:
+    '''Se encarga de dividir el valor en partes'''
+
+    def __init__(self, regex):
+        '''Constructor recibe la expresión regular con la que trabajará'''
+        self.regex = regex
+        self.error = True
+        self.re_obj = None
+
+    def load(self, value):
+        '''Carga el valor en el objeto evaluando dicho valor con el regex'''
+        self.re_obj = re.search(self.regex, value)
+        if self.re_obj:
+            self.error = False
+
+    def get(self, index):
+        '''Devuelve un grupo dentro de la expresión regular'''
+        if self.error:
+            return None
+        try:
+            el = self.re_obj.group(index)
+            return el
+        except IndexError as e:
+            print(f"Exeption: {e}")
+            return None
+
+    def value(self, index):
+        '''Devuelve un grupo 0 que contiene el valor empatado.'''
+        return self.get(0)
 
 class FieldInterface:
     '''Forza a que la función que la implemente sobre-escriba los metodos vacios'''
@@ -10,7 +41,7 @@ class FieldInterface:
     errorMsgs = {}
 
     @staticmethod
-    def is_valid(value):
+    def is_valid(value, match = None):
         '''Devuelve true si value es valido'''
         pass
 
