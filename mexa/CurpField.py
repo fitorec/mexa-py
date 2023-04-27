@@ -23,7 +23,15 @@ class CurpField(FieldInterface):
 
     @staticmethod
     def gen_id_nombre(data):
-        '''Genera la parte del nombre, los primeros 4 dígitos'''
+        '''
+        Genera la parte del nombre, los primeros 4 dígitos
+
+        :param data: diccionario de datos a utilizar.
+        :type data: dict
+        :return: Genera el id del nombre un str de 4 carácteres.
+        :rtype: str
+
+        '''
         out = ['X','X','X','X']
         # Tomando la parte del primer apellido (paterno)
         if 'primer_ap' in data:
@@ -50,7 +58,14 @@ class CurpField(FieldInterface):
 
     @staticmethod
     def gen_id2_nombre(data):
-        '''Genera la parte del nombre, los primeros 4 dígitos'''
+        '''
+        Genera la segunda parte parte del nombre
+
+        :param data: diccionario de datos a utilizar.
+        :type data: dict
+        :return: la segunda parte del nombre, en formato de 3 consonantes.
+        :rtype: str
+        '''
         out = ['X','X','X']
         # Tomando la parte del primer apellido (paterno)
         if 'primer_ap' in data:
@@ -74,10 +89,13 @@ class CurpField(FieldInterface):
 
     @staticmethod
     def check_fecha(fecha_str, homo_serial):
-        '''Revisa si existe algún error en el en formato fecha AAMMDD
+        '''
+        Revisa si existe algún error en el en formato fecha AAMMDD
 
-            devuelve el código de error o
-            None en caso de no existir error.
+        :param fecha_str: Fecha en 6 digitos en formato AAMMDD
+        :type fecha_str: str
+        :return: devuelve el código de error o None en caso de no existir error.
+        :rtype: CodeError/None
         '''
         y = CurpTools.anio(fecha_str[0:2], homo_serial)
         m = int(fecha_str[2:4])
@@ -93,6 +111,12 @@ class CurpField(FieldInterface):
     def checksum(curp: str) -> int:
         """
         Calculate the checksum for the mexican CURP.
+
+        :param curp: El curp sobre al cual se calcula el checksum.
+        :type curp: str
+        :return: el valor del checksum.
+        :rtype: int
+
         """
         chars = "0123456789ABCDEFGHIJKLMNNOPQRSTUVWXYZ"
         suma = sum([(18 - i) * chars.index(curp[i]) for i in range(17)])
@@ -101,7 +125,9 @@ class CurpField(FieldInterface):
 
     @staticmethod
     def find_match_error_nombre(nombre, curp):
-        '''Valida si para el nombre el curp es correcto'''
+        '''
+        Valida si para el nombre el curp es correcto
+        '''
         if curp[3] != CurpTools.primer_letra(nombre):
             CurpField.add_error(201)
         if curp[15] != CurpTools.primer_consonante_interna(nombre):

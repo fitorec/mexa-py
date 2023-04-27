@@ -1,1 +1,4 @@
-pylint
+myst_parser
+pytest
+ruff
+sphinx

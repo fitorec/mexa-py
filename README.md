@@ -8,6 +8,8 @@
 
 __Mexa__ es un validador y generador de diferentes campos, utiles para la tramitología mexicana:
 
+![Mexa Banner](/doc_src/_static/mexa_banner.png)
+
 ### Listado de campos:
 
  - **CURP**: Clave Única de Registro de Población.
