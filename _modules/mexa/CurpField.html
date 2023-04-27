@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mexa.CurpField &#8212; Mexa  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../mexa.html" accesskey="U">mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa.CurpField</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for mexa.CurpField</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+<span class="sd">&#39;&#39;&#39;Clase encargada del CURP&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">calendar</span> <span class="kn">import</span> <span class="n">monthrange</span>
+<span class="kn">from</span> <span class="nn">mexa.core</span> <span class="kn">import</span> <span class="n">FieldInterface</span><span class="p">,</span> <span class="n">Partes</span>
+<span class="kn">from</span> <span class="nn">mexa.Estados</span> <span class="kn">import</span> <span class="n">estados</span>
+<span class="kn">from</span> <span class="nn">mexa.CurpUtils</span> <span class="kn">import</span> <span class="n">Rand</span><span class="p">,</span> <span class="n">CurpTools</span><span class="p">,</span> <span class="n">CONSONANTS</span>
+<span class="kn">from</span> <span class="nn">mexa.ErrorMsgs</span> <span class="kn">import</span> <span class="n">CURP_ERRORS</span> <span class="k">as</span> <span class="n">ERRORS</span>
+
+
+<span class="c1"># Expresión regular para validar y las partes(groups) que conforman el CURP</span>
+<span class="n">partes</span> <span class="o">=</span> <span class="n">Partes</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^([A-Z]</span><span class="si">{4}</span><span class="s1">)(\d</span><span class="si">{6}</span><span class="s1">)([H|M])([A-Z]</span><span class="si">{2}</span><span class="s1">)([A-Z]</span><span class="si">{3}</span><span class="s1">)(\S)(\d)$&#39;</span><span class="p">)</span>
+<span class="n">ID_NOMBRE</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">FECHA_NACIMIENTO</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">SEXO</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">ENTIDAD_FEDERATIVA</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">ID2_NOMBRE</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">HOMOCLAVE</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">CHECKSUM</span> <span class="o">=</span> <span class="mi">7</span>
+
+<div class="viewcode-block" id="CurpField"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField">[docs]</a><span class="k">class</span> <span class="nc">CurpField</span><span class="p">(</span><span class="n">FieldInterface</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;CurpField&#39;&#39;&#39;</span>
+    <span class="n">errorMsgs</span> <span class="o">=</span> <span class="n">ERRORS</span>
+
+<div class="viewcode-block" id="CurpField.gen_id_nombre"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.gen_id_nombre">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">gen_id_nombre</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Genera la parte del nombre, los primeros 4 dígitos</span>
+
+<span class="sd">        :param data: diccionario de datos a utilizar.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        :return: Genera el id del nombre un str de 4 carácteres.</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">]</span>
+        <span class="c1"># Tomando la parte del primer apellido (paterno)</span>
+        <span class="k">if</span> <span class="s1">&#39;primer_ap&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">primer_ap</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">quitar_conjunciones</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;primer_ap&#39;</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_letra</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">)</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_vocal_interna</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rand</span><span class="o">.</span><span class="n">consonante</span><span class="p">()</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rand</span><span class="o">.</span><span class="n">vocal</span><span class="p">()</span>
+        <span class="c1"># Tomando la parte del segundo apellido (materno)</span>
+        <span class="k">if</span> <span class="s1">&#39;segundo_ap&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">segundo_ap</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">quitar_conjunciones</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;segundo_ap&#39;</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_letra</span><span class="p">(</span><span class="n">segundo_ap</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rand</span><span class="o">.</span><span class="n">consonante</span><span class="p">()</span>
+        <span class="c1"># Tomando la parte del nombre</span>
+        <span class="k">if</span> <span class="s1">&#39;nombre&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">nombre</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">nombre_de_pila</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_letra</span><span class="p">(</span><span class="n">nombre</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rand</span><span class="o">.</span><span class="n">consonante</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">limpiar_mal_palabra</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="CurpField.gen_id2_nombre"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.gen_id2_nombre">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">gen_id2_nombre</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Genera la segunda parte parte del nombre</span>
+
+<span class="sd">        :param data: diccionario de datos a utilizar.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        :return: la segunda parte del nombre, en formato de 3 consonantes.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">]</span>
+        <span class="c1"># Tomando la parte del primer apellido (paterno)</span>
+        <span class="k">if</span> <span class="s1">&#39;primer_ap&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">primer_ap</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">quitar_conjunciones</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;primer_ap&#39;</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_consonante_interna</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rand</span><span class="o">.</span><span class="n">consonante</span><span class="p">()</span>
+        <span class="c1"># Tomando la parte del segundo apellido (materno)</span>
+        <span class="k">if</span> <span class="s1">&#39;segundo_ap&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">segundo_ap</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">quitar_conjunciones</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;segundo_ap&#39;</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_consonante_interna</span><span class="p">(</span><span class="n">segundo_ap</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="n">Rand</span><span class="o">.</span><span class="n">consonante</span><span class="p">()</span>
+        <span class="c1"># Tomando la parte del nombre</span>
+        <span class="k">if</span> <span class="s1">&#39;nombre&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">nombre</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">nombre_de_pila</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">])</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_consonante_interna</span><span class="p">(</span><span class="n">nombre</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rand</span><span class="o">.</span><span class="n">consonante</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">sanitizar</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CurpField.check_fecha"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.check_fecha">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">check_fecha</span><span class="p">(</span><span class="n">fecha_str</span><span class="p">,</span> <span class="n">homo_serial</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Revisa si existe algún error en el en formato fecha AAMMDD</span>
+
+<span class="sd">        :param fecha_str: Fecha en 6 digitos en formato AAMMDD</span>
+<span class="sd">        :type fecha_str: str</span>
+<span class="sd">        :return: devuelve el código de error o None en caso de no existir error.</span>
+<span class="sd">        :rtype: CodeError/None</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">anio</span><span class="p">(</span><span class="n">fecha_str</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">homo_serial</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fecha_str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">102</span>
+        <span class="n">dias_mes</span> <span class="o">=</span> <span class="n">monthrange</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fecha_str</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">dias_mes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">103</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="CurpField.checksum"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.checksum">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">checksum</span><span class="p">(</span><span class="n">curp</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the checksum for the mexican CURP.</span>
+
+<span class="sd">        :param curp: El curp sobre al cual se calcula el checksum.</span>
+<span class="sd">        :type curp: str</span>
+<span class="sd">        :return: el valor del checksum.</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chars</span> <span class="o">=</span> <span class="s2">&quot;0123456789ABCDEFGHIJKLMNNOPQRSTUVWXYZ&quot;</span>
+        <span class="n">suma</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([(</span><span class="mi">18</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">chars</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">curp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">17</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">10</span> <span class="o">-</span> <span class="p">(</span><span class="n">suma</span> <span class="o">%</span> <span class="mi">10</span><span class="p">))</span> <span class="o">%</span> <span class="mi">10</span></div>
+
+
+<div class="viewcode-block" id="CurpField.find_match_error_nombre"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.find_match_error_nombre">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_match_error_nombre</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">curp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Valida si para el nombre el curp es correcto</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">curp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_letra</span><span class="p">(</span><span class="n">nombre</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="mi">201</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">curp</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="o">!=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_consonante_interna</span><span class="p">(</span><span class="n">nombre</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="mi">202</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CurpField.find_match_error_primer_ap"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.find_match_error_primer_ap">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_match_error_primer_ap</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">,</span> <span class="n">curp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Valida si para el primer apellido el curp es correcto&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">curp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_letra</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="mi">203</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">curp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_vocal_interna</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="mi">204</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">curp</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">!=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_consonante_interna</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="mi">205</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CurpField.find_match_error_segundo_ap"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.find_match_error_segundo_ap">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_match_error_segundo_ap</span><span class="p">(</span><span class="n">segundo_ap</span><span class="p">,</span> <span class="n">curp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Valida si para el primer apellido el curp es correcto&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">curp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_letra</span><span class="p">(</span><span class="n">segundo_ap</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="mi">206</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">curp</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span> <span class="o">!=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">primer_consonante_interna</span><span class="p">(</span><span class="n">segundo_ap</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="mi">207</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CurpField.find_match_error"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.find_match_error">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_match_error</span><span class="p">(</span><span class="n">match</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve el código de error en el match&#39;&#39;&#39;</span>
+        <span class="n">curp</span> <span class="o">=</span> <span class="n">partes</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;nombre&#39;</span> <span class="ow">in</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">nombre</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">nombre_de_pila</span><span class="p">(</span><span class="n">CurpTools</span><span class="o">.</span><span class="n">sanitizar</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">]))</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">find_match_error_nombre</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">curp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;primer_ap&#39;</span> <span class="ow">in</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">primer_ap</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">quitar_conjunciones</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;primer_ap&#39;</span><span class="p">])</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">find_match_error_primer_ap</span><span class="p">(</span><span class="n">primer_ap</span><span class="p">,</span> <span class="n">curp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;segundo_ap&#39;</span> <span class="ow">in</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">segundo_ap</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">quitar_conjunciones</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;segundo_ap&#39;</span><span class="p">])</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">find_match_error_segundo_ap</span><span class="p">(</span><span class="n">segundo_ap</span><span class="p">,</span> <span class="n">curp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;fecha_nacimiento&#39;</span> <span class="ow">in</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">fecha6digits</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">fecha_to_6digits</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;fecha_nacimiento&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">FECHA_NACIMIENTO</span><span class="p">)</span> <span class="o">!=</span> <span class="n">fecha6digits</span><span class="p">:</span>
+                <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">208</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;fecha_nacimiento&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;sexo&#39;</span> <span class="ow">in</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SEXO</span><span class="p">)</span> <span class="o">!=</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;sexo&#39;</span><span class="p">]:</span>
+                <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">209</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;sexo&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;entidad_federativa&#39;</span> <span class="ow">in</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">edo2chars</span> <span class="o">=</span> <span class="n">CurpTools</span><span class="o">.</span><span class="n">estado_to_2chars</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;entidad_federativa&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ENTIDAD_FEDERATIVA</span><span class="p">)</span> <span class="o">!=</span> <span class="n">edo2chars</span><span class="p">:</span>
+                <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">210</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;entidad_federativa&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="CurpField.is_valid"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.is_valid">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">match</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Regresa True si y solo si value es un CURP valido&#39;&#39;&#39;</span>
+        <span class="n">CurpField</span><span class="o">.</span><span class="n">clear_errors</span><span class="p">()</span>
+        <span class="c1">#</span>
+        <span class="n">partes</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">CurpTools</span><span class="o">.</span><span class="n">sanitizar</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">partes</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># Fecha de nacimiento.</span>
+        <span class="n">error_code</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">check_fecha</span><span class="p">(</span>
+            <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">FECHA_NACIMIENTO</span><span class="p">),</span>
+            <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HOMOCLAVE</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">error_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">error_code</span><span class="p">)</span>
+        <span class="c1"># Sexo</span>
+        <span class="k">if</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SEXO</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">101</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SEXO</span><span class="p">))</span>
+        <span class="c1"># Entidad Federativa, NE es no especificado el caso común es para extrangeros</span>
+        <span class="c1"># Ya que no nació en ninguna entidad federativa.</span>
+        <span class="k">if</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ENTIDAD_FEDERATIVA</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">estados</span><span class="p">:</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">104</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ENTIDAD_FEDERATIVA</span><span class="p">))</span>
+        <span class="c1"># La parte del nombre esta conformada por la 1er consonante interna del:</span>
+        <span class="c1"># primer apellido, 2d apellido, nombre pila</span>
+        <span class="n">par_nombre</span> <span class="o">=</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ID2_NOMBRE</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">par_nombre</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CONSONANTS</span><span class="p">:</span>
+                <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">105</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">curp_val</span> <span class="o">=</span> <span class="n">partes</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="c1"># Valida el match.</span>
+        <span class="k">if</span>  <span class="n">match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Falta agregar la implementación del match</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">find_match_error</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+            <span class="c1"># CurpField.add_error(code = 100)</span>
+        <span class="c1"># Checksum</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">curp_val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cs</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">)):</span>
+            <span class="n">CurpField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">106</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">curp_val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">has_errors</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CurpField.gen_fecha_nacimiento"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.gen_fecha_nacimiento">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">gen_fecha_nacimiento</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Genera la fecha de nacimiento&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;fecha_nacimiento&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;fecha_nacimiento&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;fecha_nacimiento&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Rand</span><span class="o">.</span><span class="n">fecha</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CurpField.gen_sexo"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.gen_sexo">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">gen_sexo</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Genera el sexo&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;sexo&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;sexo&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;HOMBRE&#39;</span><span class="p">,</span> <span class="s1">&#39;MASCULINO&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s1">&#39;H&#39;</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;sexo&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;MUJER&#39;</span><span class="p">,</span> <span class="s1">&#39;FEMENINO&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s1">&#39;M&#39;</span>
+        <span class="k">return</span> <span class="n">Rand</span><span class="o">.</span><span class="n">sexo</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CurpField.gen_entidad_federativa"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.gen_entidad_federativa">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">gen_entidad_federativa</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Genera el sexo&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;entidad_federativa&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;entidad_federativa&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Rand</span><span class="o">.</span><span class="n">estado</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CurpField.generate"><a class="viewcode-back" href="../../mexa.html#mexa.CurpField.CurpField.generate">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve el valor a partir de los metadatos recibidos en data&#39;&#39;&#39;</span>
+        <span class="n">id_nombre</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">gen_id_nombre</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">fecha</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">gen_fecha_nacimiento</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">sexo</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">gen_sexo</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">ent_fed</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">gen_entidad_federativa</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">id2_nombre</span> <span class="o">=</span> <span class="n">CurpField</span><span class="o">.</span><span class="n">gen_id2_nombre</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># Generando el curp y su suma de verificación (cs).</span>
+        <span class="n">curp</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">id_nombre</span><span class="si">}{</span><span class="n">fecha</span><span class="si">}{</span><span class="n">sexo</span><span class="si">}{</span><span class="n">ent_fed</span><span class="si">}{</span><span class="n">id2_nombre</span><span class="si">}</span><span class="s1">0&#39;</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">CurpField</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">curp</span><span class="p">))</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curp</span><span class="si">}{</span><span class="n">cs</span><span class="si">}</span><span class="s1">&#39;</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../mexa.html" >mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa.CurpField</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023 Miguel Angel Marcial Martínez.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

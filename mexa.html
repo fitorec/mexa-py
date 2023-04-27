@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>mexa package &#8212; Mexa  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="mexa" href="modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modules.html" title="mexa"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="mexa-package">
+<h1>mexa package<a class="headerlink" href="#mexa-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-mexa.CurpField">
+<span id="mexa-curpfield"></span><h2>mexa.CurpField<a class="headerlink" href="#module-mexa.CurpField" title="Permalink to this heading">¶</a></h2>
+<p>Clase encargada del CURP</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mexa.CurpField.</span></span><span class="sig-name descname"><span class="pre">CurpField</span></span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mexa.core.FieldInterface" title="mexa.core.FieldInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldInterface</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.check_fecha">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_fecha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fecha_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homo_serial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.check_fecha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.check_fecha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revisa si existe algún error en el en formato fecha AAMMDD</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fecha_str</strong> (<em>str</em>) – Fecha en 6 digitos en formato AAMMDD</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>devuelve el código de error o None en caso de no existir error.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CodeError/None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.checksum">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">checksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.checksum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the checksum for the mexican CURP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>curp</strong> (<em>str</em>) – El curp sobre al cual se calcula el checksum.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>el valor del checksum.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.errorMsgs">
+<span class="sig-name descname"><span class="pre">errorMsgs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{100:</span> <span class="pre">'Valor</span> <span class="pre">en</span> <span class="pre">formato</span> <span class="pre">inválido',</span> <span class="pre">101:</span> <span class="pre">'El</span> <span class="pre">sexo</span> <span class="pre">debe</span> <span class="pre">ser</span> <span class="pre">H</span> <span class="pre">o</span> <span class="pre">M,</span> <span class="pre">valor</span> <span class="pre">invalido:</span> <span class="pre">{}',</span> <span class="pre">102:</span> <span class="pre">'Mes</span> <span class="pre">incorrecto',</span> <span class="pre">103:</span> <span class="pre">'La</span> <span class="pre">cantidad</span> <span class="pre">de</span> <span class="pre">días</span> <span class="pre">que</span> <span class="pre">supera</span> <span class="pre">a</span> <span class="pre">los</span> <span class="pre">del</span> <span class="pre">mes</span> <span class="pre">indicado.',</span> <span class="pre">104:</span> <span class="pre">'El</span> <span class="pre">codigo</span> <span class="pre">de</span> <span class="pre">entidad</span> <span class="pre">federativa({})</span> <span class="pre">es</span> <span class="pre">inválido.',</span> <span class="pre">105:</span> <span class="pre">'Carácter</span> <span class="pre">({})</span> <span class="pre">invalido</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">segunda</span> <span class="pre">parte</span> <span class="pre">del</span> <span class="pre">nombre.',</span> <span class="pre">106:</span> <span class="pre">'Suma</span> <span class="pre">de</span> <span class="pre">validación</span> <span class="pre">incorrecta</span> <span class="pre">({}).',</span> <span class="pre">201:</span> <span class="pre">'La</span> <span class="pre">primer</span> <span class="pre">letra</span> <span class="pre">del</span> <span class="pre">nombre</span> <span class="pre">de</span> <span class="pre">pila</span> <span class="pre">debe</span> <span class="pre">ir</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">posición</span> <span class="pre">4',</span> <span class="pre">202:</span> <span class="pre">'La</span> <span class="pre">primer</span> <span class="pre">consonante</span> <span class="pre">interna</span> <span class="pre">del</span> <span class="pre">nombre</span> <span class="pre">de</span> <span class="pre">pila</span> <span class="pre">debe</span> <span class="pre">ir</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">posición</span> <span class="pre">16',</span> <span class="pre">203:</span> <span class="pre">'La</span> <span class="pre">primer</span> <span class="pre">letra</span> <span class="pre">del</span> <span class="pre">primer</span> <span class="pre">apellido</span> <span class="pre">debe</span> <span class="pre">ir</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">posición</span> <span class="pre">1',</span> <span class="pre">204:</span> <span class="pre">'La</span> <span class="pre">primer</span> <span class="pre">vocal</span> <span class="pre">interna</span> <span class="pre">del</span> <span class="pre">primer</span> <span class="pre">apellido</span> <span class="pre">debe</span> <span class="pre">ir</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">posición</span> <span class="pre">2',</span> <span class="pre">205:</span> <span class="pre">'La</span> <span class="pre">primer</span> <span class="pre">consonante</span> <span class="pre">interna</span> <span class="pre">del</span> <span class="pre">primer</span> <span class="pre">apellido</span> <span class="pre">debe</span> <span class="pre">ir</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">posición</span> <span class="pre">11',</span> <span class="pre">206:</span> <span class="pre">'La</span> <span class="pre">primer</span> <span class="pre">letra</span> <span class="pre">del</span> <span class="pre">segundo</span> <span class="pre">apellido</span> <span class="pre">debe</span> <span class="pre">ir</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">posición</span> <span class="pre">3',</span> <span class="pre">207:</span> <span class="pre">'La</span> <span class="pre">primer</span> <span class="pre">consonante</span> <span class="pre">interna</span> <span class="pre">del</span> <span class="pre">segundo</span> <span class="pre">apellido</span> <span class="pre">debe</span> <span class="pre">ir</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">posición</span> <span class="pre">15',</span> <span class="pre">208:</span> <span class="pre">'Las</span> <span class="pre">fecha</span> <span class="pre">del</span> <span class="pre">Curp</span> <span class="pre">con</span> <span class="pre">el</span> <span class="pre">valor</span> <span class="pre">recibido({})</span> <span class="pre">a</span> <span class="pre">validar',</span> <span class="pre">209:</span> <span class="pre">'El</span> <span class="pre">sexo</span> <span class="pre">del</span> <span class="pre">CURP</span> <span class="pre">no</span> <span class="pre">coincide</span> <span class="pre">con</span> <span class="pre">el</span> <span class="pre">valor</span> <span class="pre">recibido({})</span> <span class="pre">a</span> <span class="pre">validar',</span> <span class="pre">210:</span> <span class="pre">'La</span> <span class="pre">entidad</span> <span class="pre">federativa</span> <span class="pre">del</span> <span class="pre">Curp</span> <span class="pre">no</span> <span class="pre">coincide</span> <span class="pre">con</span> <span class="pre">el</span> <span class="pre">valor</span> <span class="pre">recibido({})'}</span></em><a class="headerlink" href="#mexa.CurpField.CurpField.errorMsgs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.find_match_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_match_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.find_match_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.find_match_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el código de error en el match</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.find_match_error_nombre">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_match_error_nombre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.find_match_error_nombre"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.find_match_error_nombre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Valida si para el nombre el curp es correcto</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.find_match_error_primer_ap">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_match_error_primer_ap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primer_ap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.find_match_error_primer_ap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.find_match_error_primer_ap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Valida si para el primer apellido el curp es correcto</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.find_match_error_segundo_ap">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_match_error_segundo_ap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segundo_ap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.find_match_error_segundo_ap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.find_match_error_segundo_ap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Valida si para el primer apellido el curp es correcto</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.gen_entidad_federativa">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_entidad_federativa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.gen_entidad_federativa"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.gen_entidad_federativa" title="Permalink to this definition">¶</a></dt>
+<dd><p>Genera el sexo</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.gen_fecha_nacimiento">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_fecha_nacimiento</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.gen_fecha_nacimiento"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.gen_fecha_nacimiento" title="Permalink to this definition">¶</a></dt>
+<dd><p>Genera la fecha de nacimiento</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.gen_id2_nombre">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_id2_nombre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.gen_id2_nombre"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.gen_id2_nombre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Genera la segunda parte parte del nombre</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – diccionario de datos a utilizar.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>la segunda parte del nombre, en formato de 3 consonantes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.gen_id_nombre">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_id_nombre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.gen_id_nombre"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.gen_id_nombre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Genera la parte del nombre, los primeros 4 dígitos</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – diccionario de datos a utilizar.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Genera el id del nombre un str de 4 carácteres.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.gen_sexo">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_sexo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.gen_sexo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.gen_sexo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Genera el sexo</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.generate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el valor a partir de los metadatos recibidos en data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpField.CurpField.is_valid">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpField.html#CurpField.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpField.CurpField.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regresa True si y solo si value es un CURP valido</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mexa.CurpUtils">
+<span id="mexa-curputils"></span><h2>mexa.CurpUtils<a class="headerlink" href="#module-mexa.CurpUtils" title="Permalink to this heading">¶</a></h2>
+<p>Módulo que contiene un conjunto de utilerías diseñadas
+para darle soporte a la Clase: CurpField</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mexa.CurpUtils.</span></span><span class="sig-name descname"><span class="pre">CurpTools</span></span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase que modela el CURP</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.anio">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">last2_digits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homo_serial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.anio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.anio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve al año, agregando los primeros digitos, esto si la parte de la
+homoclave que genera la serialización para evitar curps repetidos Si es
+mayor a A entonces nacio despues del año 2000</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.estado_to_2chars">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">estado_to_2chars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.estado_to_2chars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.estado_to_2chars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recibe el estado devuelve el código del mismo a dos caracteres</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.fecha_to_6digits">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fecha_to_6digits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fecha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.fecha_to_6digits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.fecha_to_6digits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recibe una fecha y la normaliza a formato AAMMDD</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.limpiar_mal_palabra">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">limpiar_mal_palabra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.limpiar_mal_palabra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.limpiar_mal_palabra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quita una mala palabra</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.nombre_de_pila">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nombre_de_pila</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.nombre_de_pila"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.nombre_de_pila" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el nombre de pila</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.primer_consonante_interna">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primer_consonante_interna</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.primer_consonante_interna"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.primer_consonante_interna" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.primer_letra">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primer_letra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.primer_letra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.primer_letra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.primer_vocal_interna">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primer_vocal_interna</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.primer_vocal_interna"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.primer_vocal_interna" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.quitar_conjunciones">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quitar_conjunciones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.quitar_conjunciones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.quitar_conjunciones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el nombre de pila</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.CurpTools.sanitizar">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sanitizar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.sanitizar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.CurpTools.sanitizar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mexa.CurpUtils.Rand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mexa.CurpUtils.</span></span><span class="sig-name descname"><span class="pre">Rand</span></span><a class="reference internal" href="_modules/mexa/CurpUtils.html#Rand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.Rand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Devuelve aleatoriamente diferentes elementos</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.Rand.consonante">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">consonante</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#Rand.consonante"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.Rand.consonante" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regresa un valor aleatorio entre 0 a 9</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.Rand.digito">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">digito</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#Rand.digito"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.Rand.digito" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regresa un valor aleatorio entre 0 a 9</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.Rand.estado">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">estado</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#Rand.estado"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.Rand.estado" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve un estado aleatorio</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.Rand.fecha">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fecha</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#Rand.fecha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.Rand.fecha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve un estado aleatorio</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.Rand.sexo">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sexo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#Rand.sexo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.Rand.sexo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el sexo en modo aleatorio</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpUtils.Rand.vocal">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vocal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#Rand.vocal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpUtils.Rand.vocal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regresa un valor aleatorio entre 0 a 9</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mexa.ErrorMsgs">
+<span id="mexa-errormsgs"></span><h2>mexa.ErrorMsgs<a class="headerlink" href="#module-mexa.ErrorMsgs" title="Permalink to this heading">¶</a></h2>
+<p>Contiene todos los mensajes de error</p>
+</section>
+<section id="module-mexa.Estados">
+<span id="mexa-estados"></span><h2>mexa.Estados<a class="headerlink" href="#module-mexa.Estados" title="Permalink to this heading">¶</a></h2>
+<p>Entidades de la República Mexicana y su código ISO</p>
+</section>
+<section id="module-mexa.NssField">
+<span id="mexa-nssfield"></span><h2>mexa.NssField<a class="headerlink" href="#module-mexa.NssField" title="Permalink to this heading">¶</a></h2>
+<p>Clase encargada del Nss</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mexa.NssField.NssField">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mexa.NssField.</span></span><span class="sig-name descname"><span class="pre">NssField</span></span><a class="reference internal" href="_modules/mexa/NssField.html#NssField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.NssField.NssField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mexa.core.FieldInterface" title="mexa.core.FieldInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldInterface</span></code></a></p>
+<p>Clase que modela el Nss</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.NssField.NssField.anios">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/NssField.html#NssField.anios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.NssField.NssField.anios" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve un arreglo con los años de nacimiento y afiliacion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dic</em>) – Los datos el cual puede contener fecha_nacimiento
+y f_afiliacion de existir deberán ser tomados
+en cuenta estos valores.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Arreglo ordenado de la forma [fecha_nacimiento, f_afiliacion]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.NssField.NssField.autocomplete">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">autocomplete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/NssField.html#NssField.autocomplete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.NssField.NssField.autocomplete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve true si value es valido</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mexa.NssField.NssField.errorMsgs">
+<span class="sig-name descname"><span class="pre">errorMsgs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{100:</span> <span class="pre">'El</span> <span class="pre">valor</span> <span class="pre">debe</span> <span class="pre">tener</span> <span class="pre">una</span> <span class="pre">longitud</span> <span class="pre">de</span> <span class="pre">11</span> <span class="pre">carácteres</span> <span class="pre">númericos',</span> <span class="pre">101:</span> <span class="pre">'El</span> <span class="pre">año</span> <span class="pre">de</span> <span class="pre">afiliación</span> <span class="pre">no</span> <span class="pre">puede</span> <span class="pre">ser</span> <span class="pre">menor</span> <span class="pre">que</span> <span class="pre">el</span> <span class="pre">de</span> <span class="pre">nacimiento',</span> <span class="pre">102:</span> <span class="pre">'Suma</span> <span class="pre">de</span> <span class="pre">validación</span> <span class="pre">incorrecta({})'}</span></em><a class="headerlink" href="#mexa.NssField.NssField.errorMsgs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.NssField.NssField.generate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/NssField.html#NssField.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.NssField.NssField.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Genera un Nss a partir de los datos recibidos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dic</em>) – Los valores contenidos deberán ser tomados en cuenta.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>str nss Un número del Seguro Social válido</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.NssField.NssField.is_valid">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/NssField.html#NssField.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.NssField.NssField.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve true si value es valido</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.NssField.NssField.nss_checksum">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nss_checksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nss</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/NssField.html#NssField.nss_checksum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.NssField.NssField.nss_checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recibe un string que representa el nss, regresa el checksum</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mexa.core">
+<span id="mexa-core"></span><h2>mexa.core<a class="headerlink" href="#module-mexa.core" title="Permalink to this heading">¶</a></h2>
+<p>Se encarga de implementar funciones para el nucleo de la aplicacion.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mexa.core.</span></span><span class="sig-name descname"><span class="pre">FieldInterface</span></span><a class="reference internal" href="_modules/mexa/core.html#FieldInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.FieldInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Forza a que la función que la implemente sobre-escriba los metodos vacios</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.add_error">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#FieldInterface.add_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.FieldInterface.add_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agrega el mensaje de error y devuelve siempre False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.autocomplete">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">autocomplete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#FieldInterface.autocomplete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.FieldInterface.autocomplete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve un string igual o mayor al recibido</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.clear_errors">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clear_errors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#FieldInterface.clear_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.FieldInterface.clear_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recibe un mensaje y lo guarda en el error</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.errorMsgs">
+<span class="sig-name descname"><span class="pre">errorMsgs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#mexa.core.FieldInterface.errorMsgs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#mexa.core.FieldInterface.errors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.generate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#FieldInterface.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.FieldInterface.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el valor a partir de los metadatos recibidos en data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.has_errors">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_errors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#FieldInterface.has_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.FieldInterface.has_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve true si existen errores</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.FieldInterface.is_valid">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#FieldInterface.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.FieldInterface.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve true si value es valido</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mexa.core.Partes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mexa.core.</span></span><span class="sig-name descname"><span class="pre">Partes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#Partes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.Partes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Se encarga de dividir el valor en partes</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.Partes.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#Partes.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.Partes.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve un grupo dentro de la expresión regular</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.Partes.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#Partes.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.Partes.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Carga el valor en el objeto evaluando dicho valor con el regex</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.core.Partes.value">
+<span class="sig-name descname"><span class="pre">value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#Partes.value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.Partes.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve un grupo 0 que contiene el valor empatado.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mexa.core.year_by_last2digit">
+<span class="sig-prename descclassname"><span class="pre">mexa.core.</span></span><span class="sig-name descname"><span class="pre">year_by_last2digit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">last2_digits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/core.html#year_by_last2digit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.core.year_by_last2digit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regresa el año completo a partir de los dos últimos digitos</p>
+</dd></dl>
+
+</section>
+<section id="module-mexa.data_ladas">
+<span id="mexa-data-ladas"></span><h2>mexa.data_ladas<a class="headerlink" href="#module-mexa.data_ladas" title="Permalink to this heading">¶</a></h2>
+<p>Contiene las ladas de México, infomración extraida del PDF de ladas,
+para mayores detalles revisar documentación.</p>
+</section>
+<section id="module-mexa">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mexa" title="Permalink to this heading">¶</a></h2>
+<p>Mexa validador y generador de campos</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mexa.Curp">
+<span class="sig-prename descclassname"><span class="pre">mexa.</span></span><span class="sig-name descname"><span class="pre">Curp</span></span><a class="headerlink" href="#mexa.Curp" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#mexa.CurpField.CurpField" title="mexa.CurpField.CurpField"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurpField</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mexa.CurpTools">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mexa.</span></span><span class="sig-name descname"><span class="pre">CurpTools</span></span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Clase que modela el CURP</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.anio">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">last2_digits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homo_serial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.anio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.anio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve al año, agregando los primeros digitos, esto si la parte de la
+homoclave que genera la serialización para evitar curps repetidos Si es
+mayor a A entonces nacio despues del año 2000</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.estado_to_2chars">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">estado_to_2chars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.estado_to_2chars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.estado_to_2chars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recibe el estado devuelve el código del mismo a dos caracteres</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.fecha_to_6digits">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fecha_to_6digits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fecha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.fecha_to_6digits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.fecha_to_6digits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recibe una fecha y la normaliza a formato AAMMDD</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.limpiar_mal_palabra">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">limpiar_mal_palabra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.limpiar_mal_palabra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.limpiar_mal_palabra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quita una mala palabra</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.nombre_de_pila">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nombre_de_pila</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.nombre_de_pila"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.nombre_de_pila" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el nombre de pila</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.primer_consonante_interna">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primer_consonante_interna</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.primer_consonante_interna"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.primer_consonante_interna" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.primer_letra">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primer_letra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.primer_letra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.primer_letra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.primer_vocal_interna">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primer_vocal_interna</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.primer_vocal_interna"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.primer_vocal_interna" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.quitar_conjunciones">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quitar_conjunciones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.quitar_conjunciones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.quitar_conjunciones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Devuelve el nombre de pila</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mexa.CurpTools.sanitizar">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sanitizar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa/CurpUtils.html#CurpTools.sanitizar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.CurpTools.sanitizar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitiza un string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mexa.Nss">
+<span class="sig-prename descclassname"><span class="pre">mexa.</span></span><span class="sig-name descname"><span class="pre">Nss</span></span><a class="headerlink" href="#mexa.Nss" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#mexa.NssField.NssField" title="mexa.NssField.NssField"><code class="xref py py-class docutils literal notranslate"><span class="pre">NssField</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mexa.generate">
+<span class="sig-prename descclassname"><span class="pre">mexa.</span></span><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa.html#generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>genera a partir de los datos recibidos</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mexa.validate">
+<span class="sig-prename descclassname"><span class="pre">mexa.</span></span><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mexa.html#validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mexa.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Valida el type_field el valor</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">mexa package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-mexa.CurpField">mexa.CurpField</a><ul>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField"><code class="docutils literal notranslate"><span class="pre">CurpField</span></code></a><ul>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.check_fecha"><code class="docutils literal notranslate"><span class="pre">CurpField.check_fecha()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.checksum"><code class="docutils literal notranslate"><span class="pre">CurpField.checksum()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.errorMsgs"><code class="docutils literal notranslate"><span class="pre">CurpField.errorMsgs</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.find_match_error"><code class="docutils literal notranslate"><span class="pre">CurpField.find_match_error()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.find_match_error_nombre"><code class="docutils literal notranslate"><span class="pre">CurpField.find_match_error_nombre()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.find_match_error_primer_ap"><code class="docutils literal notranslate"><span class="pre">CurpField.find_match_error_primer_ap()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.find_match_error_segundo_ap"><code class="docutils literal notranslate"><span class="pre">CurpField.find_match_error_segundo_ap()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.gen_entidad_federativa"><code class="docutils literal notranslate"><span class="pre">CurpField.gen_entidad_federativa()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.gen_fecha_nacimiento"><code class="docutils literal notranslate"><span class="pre">CurpField.gen_fecha_nacimiento()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.gen_id2_nombre"><code class="docutils literal notranslate"><span class="pre">CurpField.gen_id2_nombre()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.gen_id_nombre"><code class="docutils literal notranslate"><span class="pre">CurpField.gen_id_nombre()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.gen_sexo"><code class="docutils literal notranslate"><span class="pre">CurpField.gen_sexo()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.generate"><code class="docutils literal notranslate"><span class="pre">CurpField.generate()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpField.CurpField.is_valid"><code class="docutils literal notranslate"><span class="pre">CurpField.is_valid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mexa.CurpUtils">mexa.CurpUtils</a><ul>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools"><code class="docutils literal notranslate"><span class="pre">CurpTools</span></code></a><ul>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.anio"><code class="docutils literal notranslate"><span class="pre">CurpTools.anio()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.estado_to_2chars"><code class="docutils literal notranslate"><span class="pre">CurpTools.estado_to_2chars()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.fecha_to_6digits"><code class="docutils literal notranslate"><span class="pre">CurpTools.fecha_to_6digits()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.limpiar_mal_palabra"><code class="docutils literal notranslate"><span class="pre">CurpTools.limpiar_mal_palabra()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.nombre_de_pila"><code class="docutils literal notranslate"><span class="pre">CurpTools.nombre_de_pila()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.primer_consonante_interna"><code class="docutils literal notranslate"><span class="pre">CurpTools.primer_consonante_interna()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.primer_letra"><code class="docutils literal notranslate"><span class="pre">CurpTools.primer_letra()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.primer_vocal_interna"><code class="docutils literal notranslate"><span class="pre">CurpTools.primer_vocal_interna()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.quitar_conjunciones"><code class="docutils literal notranslate"><span class="pre">CurpTools.quitar_conjunciones()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.CurpTools.sanitizar"><code class="docutils literal notranslate"><span class="pre">CurpTools.sanitizar()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mexa.CurpUtils.Rand"><code class="docutils literal notranslate"><span class="pre">Rand</span></code></a><ul>
+<li><a class="reference internal" href="#mexa.CurpUtils.Rand.consonante"><code class="docutils literal notranslate"><span class="pre">Rand.consonante()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.Rand.digito"><code class="docutils literal notranslate"><span class="pre">Rand.digito()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.Rand.estado"><code class="docutils literal notranslate"><span class="pre">Rand.estado()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.Rand.fecha"><code class="docutils literal notranslate"><span class="pre">Rand.fecha()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.Rand.sexo"><code class="docutils literal notranslate"><span class="pre">Rand.sexo()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpUtils.Rand.vocal"><code class="docutils literal notranslate"><span class="pre">Rand.vocal()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mexa.ErrorMsgs">mexa.ErrorMsgs</a></li>
+<li><a class="reference internal" href="#module-mexa.Estados">mexa.Estados</a></li>
+<li><a class="reference internal" href="#module-mexa.NssField">mexa.NssField</a><ul>
+<li><a class="reference internal" href="#mexa.NssField.NssField"><code class="docutils literal notranslate"><span class="pre">NssField</span></code></a><ul>
+<li><a class="reference internal" href="#mexa.NssField.NssField.anios"><code class="docutils literal notranslate"><span class="pre">NssField.anios()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.NssField.NssField.autocomplete"><code class="docutils literal notranslate"><span class="pre">NssField.autocomplete()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.NssField.NssField.errorMsgs"><code class="docutils literal notranslate"><span class="pre">NssField.errorMsgs</span></code></a></li>
+<li><a class="reference internal" href="#mexa.NssField.NssField.generate"><code class="docutils literal notranslate"><span class="pre">NssField.generate()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.NssField.NssField.is_valid"><code class="docutils literal notranslate"><span class="pre">NssField.is_valid()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.NssField.NssField.nss_checksum"><code class="docutils literal notranslate"><span class="pre">NssField.nss_checksum()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mexa.core">mexa.core</a><ul>
+<li><a class="reference internal" href="#mexa.core.FieldInterface"><code class="docutils literal notranslate"><span class="pre">FieldInterface</span></code></a><ul>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.add_error"><code class="docutils literal notranslate"><span class="pre">FieldInterface.add_error()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.autocomplete"><code class="docutils literal notranslate"><span class="pre">FieldInterface.autocomplete()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.clear_errors"><code class="docutils literal notranslate"><span class="pre">FieldInterface.clear_errors()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.errorMsgs"><code class="docutils literal notranslate"><span class="pre">FieldInterface.errorMsgs</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.errors"><code class="docutils literal notranslate"><span class="pre">FieldInterface.errors</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.generate"><code class="docutils literal notranslate"><span class="pre">FieldInterface.generate()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.has_errors"><code class="docutils literal notranslate"><span class="pre">FieldInterface.has_errors()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.FieldInterface.is_valid"><code class="docutils literal notranslate"><span class="pre">FieldInterface.is_valid()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mexa.core.Partes"><code class="docutils literal notranslate"><span class="pre">Partes</span></code></a><ul>
+<li><a class="reference internal" href="#mexa.core.Partes.get"><code class="docutils literal notranslate"><span class="pre">Partes.get()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.Partes.load"><code class="docutils literal notranslate"><span class="pre">Partes.load()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.core.Partes.value"><code class="docutils literal notranslate"><span class="pre">Partes.value()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mexa.core.year_by_last2digit"><code class="docutils literal notranslate"><span class="pre">year_by_last2digit()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mexa.data_ladas">mexa.data_ladas</a></li>
+<li><a class="reference internal" href="#module-mexa">Module contents</a><ul>
+<li><a class="reference internal" href="#mexa.Curp"><code class="docutils literal notranslate"><span class="pre">Curp</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools"><code class="docutils literal notranslate"><span class="pre">CurpTools</span></code></a><ul>
+<li><a class="reference internal" href="#mexa.CurpTools.anio"><code class="docutils literal notranslate"><span class="pre">CurpTools.anio()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.estado_to_2chars"><code class="docutils literal notranslate"><span class="pre">CurpTools.estado_to_2chars()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.fecha_to_6digits"><code class="docutils literal notranslate"><span class="pre">CurpTools.fecha_to_6digits()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.limpiar_mal_palabra"><code class="docutils literal notranslate"><span class="pre">CurpTools.limpiar_mal_palabra()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.nombre_de_pila"><code class="docutils literal notranslate"><span class="pre">CurpTools.nombre_de_pila()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.primer_consonante_interna"><code class="docutils literal notranslate"><span class="pre">CurpTools.primer_consonante_interna()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.primer_letra"><code class="docutils literal notranslate"><span class="pre">CurpTools.primer_letra()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.primer_vocal_interna"><code class="docutils literal notranslate"><span class="pre">CurpTools.primer_vocal_interna()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.quitar_conjunciones"><code class="docutils literal notranslate"><span class="pre">CurpTools.quitar_conjunciones()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.CurpTools.sanitizar"><code class="docutils literal notranslate"><span class="pre">CurpTools.sanitizar()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mexa.Nss"><code class="docutils literal notranslate"><span class="pre">Nss</span></code></a></li>
+<li><a class="reference internal" href="#mexa.generate"><code class="docutils literal notranslate"><span class="pre">generate()</span></code></a></li>
+<li><a class="reference internal" href="#mexa.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="modules.html"
+                          title="previous chapter">mexa</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mexa.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modules.html" title="mexa"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023 Miguel Angel Marcial Martínez.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

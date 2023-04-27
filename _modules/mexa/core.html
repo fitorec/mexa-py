@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mexa.core &#8212; Mexa  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../mexa.html" accesskey="U">mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa.core</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for mexa.core</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+<span class="sd">&#39;&#39;&#39; Se encarga de implementar funciones para el nucleo de la aplicacion. &#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<div class="viewcode-block" id="Partes"><a class="viewcode-back" href="../../mexa.html#mexa.core.Partes">[docs]</a><span class="k">class</span> <span class="nc">Partes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Se encarga de dividir el valor en partes&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Constructor recibe la expresión regular con la que trabajará&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regex</span> <span class="o">=</span> <span class="n">regex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">re_obj</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Partes.load"><a class="viewcode-back" href="../../mexa.html#mexa.core.Partes.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Carga el valor en el objeto evaluando dicho valor con el regex&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">re_obj</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regex</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_obj</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Partes.get"><a class="viewcode-back" href="../../mexa.html#mexa.core.Partes.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve un grupo dentro de la expresión regular&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">el</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_obj</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">el</span>
+        <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exeption: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Partes.value"><a class="viewcode-back" href="../../mexa.html#mexa.core.Partes.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve un grupo 0 que contiene el valor empatado.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="FieldInterface"><a class="viewcode-back" href="../../mexa.html#mexa.core.FieldInterface">[docs]</a><span class="k">class</span> <span class="nc">FieldInterface</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Forza a que la función que la implemente sobre-escriba los metodos vacios&#39;&#39;&#39;</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">errorMsgs</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="FieldInterface.is_valid"><a class="viewcode-back" href="../../mexa.html#mexa.core.FieldInterface.is_valid">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">match</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve true si value es valido&#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FieldInterface.generate"><a class="viewcode-back" href="../../mexa.html#mexa.core.FieldInterface.generate">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve el valor a partir de los metadatos recibidos en data&#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FieldInterface.autocomplete"><a class="viewcode-back" href="../../mexa.html#mexa.core.FieldInterface.autocomplete">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">autocomplete</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve un string igual o mayor al recibido&#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FieldInterface.add_error"><a class="viewcode-back" href="../../mexa.html#mexa.core.FieldInterface.add_error">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">add_error</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Agrega el mensaje de error y devuelve siempre False&#39;&#39;&#39;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">errorMsgs</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">errorMsgs</span><span class="p">[</span><span class="n">code</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Código de error incorrecto: </span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="FieldInterface.has_errors"><a class="viewcode-back" href="../../mexa.html#mexa.core.FieldInterface.has_errors">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">has_errors</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve true si existen errores&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="FieldInterface.clear_errors"><a class="viewcode-back" href="../../mexa.html#mexa.core.FieldInterface.clear_errors">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">clear_errors</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Recibe un mensaje y lo guarda en el error&#39;&#39;&#39;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="year_by_last2digit"><a class="viewcode-back" href="../../mexa.html#mexa.core.year_by_last2digit">[docs]</a><span class="k">def</span> <span class="nf">year_by_last2digit</span> <span class="p">(</span><span class="n">last2_digits</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Regresa el año completo a partir de los dos últimos digitos&#39;&#39;&#39;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">last2_digits</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">current_year</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span> <span class="o">%</span> <span class="mi">100</span>
+    <span class="n">centenas</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">current_year</span> <span class="k">else</span> <span class="mi">19</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">centenas</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../mexa.html" >mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa.core</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023 Miguel Angel Marcial Martínez.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

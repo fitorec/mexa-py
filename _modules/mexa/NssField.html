@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mexa.NssField &#8212; Mexa  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../mexa.html" accesskey="U">mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa.NssField</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for mexa.NssField</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+<span class="sd">&#39;&#39;&#39;Clase encargada del Nss&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">mexa.core</span> <span class="kn">import</span> <span class="n">FieldInterface</span><span class="p">,</span> <span class="n">year_by_last2digit</span><span class="p">,</span> <span class="n">Partes</span>
+<span class="kn">from</span> <span class="nn">mexa.ErrorMsgs</span> <span class="kn">import</span> <span class="n">NSS_ERRORS</span> <span class="k">as</span> <span class="n">ERRORS</span>
+
+<span class="n">partes</span> <span class="o">=</span> <span class="n">Partes</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(\d</span><span class="si">{2}</span><span class="s1">)(\d</span><span class="si">{2}</span><span class="s1">)(\d</span><span class="si">{2}</span><span class="s1">)(\d</span><span class="si">{4}</span><span class="s1">)(\d)$&#39;</span><span class="p">)</span>
+<span class="n">REGION_IMSS</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ANIO_ALTA</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">ANIO_NACIMIENTO</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">FOLIO_IMSS</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">CHECKSUM</span> <span class="o">=</span> <span class="mi">5</span>
+
+<div class="viewcode-block" id="NssField"><a class="viewcode-back" href="../../mexa.html#mexa.NssField.NssField">[docs]</a><span class="k">class</span> <span class="nc">NssField</span><span class="p">(</span><span class="n">FieldInterface</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Clase que modela el Nss&#39;&#39;&#39;</span>
+    <span class="n">errorMsgs</span> <span class="o">=</span> <span class="n">ERRORS</span>
+    <span class="c1"># region_imss, anio_alta, anio_nacimiento, folio_imss, checksum</span>
+
+<div class="viewcode-block" id="NssField.nss_checksum"><a class="viewcode-back" href="../../mexa.html#mexa.NssField.NssField.nss_checksum">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">nss_checksum</span><span class="p">(</span><span class="n">nss</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Recibe un string que representa el nss, regresa el checksum&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nss</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">NssField</span><span class="o">.</span><span class="n">error_msg</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nss</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">factor</span>
+            <span class="n">suma</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">v</span> <span class="o">%</span> <span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="p">(</span><span class="n">suma</span> <span class="o">*</span> <span class="mi">9</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span>
+        <span class="k">return</span> <span class="n">cs</span></div>
+
+
+<div class="viewcode-block" id="NssField.is_valid"><a class="viewcode-back" href="../../mexa.html#mexa.NssField.NssField.is_valid">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">match</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve true si value es valido&#39;&#39;&#39;</span>
+        <span class="n">NssField</span><span class="o">.</span><span class="n">clear_errors</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="n">NssField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">partes</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">partes</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="n">NssField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># revisando los años de afiliación/nacimiento</span>
+        <span class="n">f_afi</span> <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ANIO_ALTA</span><span class="p">))</span>
+        <span class="n">f_nac</span> <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ANIO_NACIMIENTO</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">f_afi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">f_nac</span><span class="p">):</span>
+            <span class="n">NssField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">101</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># revisando el checksum</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">NssField</span><span class="o">.</span><span class="n">nss_checksum</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cs</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">)):</span>
+            <span class="n">NssField</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">code</span> <span class="o">=</span> <span class="mi">102</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">partes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># Falta agregar la implementación del match</span>
+        <span class="k">return</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="NssField.autocomplete"><a class="viewcode-back" href="../../mexa.html#mexa.NssField.NssField.autocomplete">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">autocomplete</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Devuelve true si value es valido&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">NssField</span><span class="o">.</span><span class="n">nss_checksum</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}{</span><span class="n">cs</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="NssField.anios"><a class="viewcode-back" href="../../mexa.html#mexa.NssField.NssField.anios">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">anios</span><span class="p">(</span><span class="n">data</span>  <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Devuelve un arreglo con los años de nacimiento y afiliacion</span>
+
+<span class="sd">        :param dic data: Los datos el cual puede contener fecha_nacimiento</span>
+<span class="sd">                        y f_afiliacion de existir deberán ser tomados</span>
+<span class="sd">                        en cuenta estos valores.</span>
+<span class="sd">        :return: Arreglo ordenado de la forma [fecha_nacimiento, f_afiliacion]</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span>  <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;fecha_nacimiento&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s1">&#39;f_afiliacion&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span>
+              <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;fecha_nacimiento&#39;</span><span class="p">]),</span>
+              <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;f_afiliacion&#39;</span><span class="p">])</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;fecha_nacimiento&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">nac</span> <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;fecha_nacimiento&#39;</span><span class="p">])</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">afil</span> <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">afil</span> <span class="o">&gt;=</span> <span class="n">nac</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">nac</span><span class="p">,</span> <span class="n">afil</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;f_afiliacion&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">afil</span>  <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;f_afiliacion&#39;</span><span class="p">])</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">nac</span> <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">afil</span> <span class="o">&gt;=</span> <span class="n">nac</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">nac</span><span class="p">,</span> <span class="n">afil</span><span class="p">]</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">))</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="n">year_by_last2digit</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">y1</span> <span class="o">&lt;=</span> <span class="n">y2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">y2</span><span class="p">,</span> <span class="n">y1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NssField.generate"><a class="viewcode-back" href="../../mexa.html#mexa.NssField.NssField.generate">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Genera un Nss a partir de los datos recibidos.</span>
+
+<span class="sd">        :param dic data: Los valores contenidos deberán ser tomados en cuenta.</span>
+<span class="sd">        :return: str nss Un número del Seguro Social válido</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span>  <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;region_imss&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;region_imss&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">else</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="n">NssField</span><span class="o">.</span><span class="n">anios</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">fol</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;folio_imss&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;folio_imss&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">else</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9999</span><span class="p">)</span>
+        <span class="c1"># Asignacion y formato</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reg</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+        <span class="n">afi</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="c1"># Año de Afiliacion</span>
+        <span class="n">nac</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="c1"># Año de Nacimiento</span>
+        <span class="n">fol</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fol</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+        <span class="c1"># Se envia a autocomplete los diez primeros digitos para que le agregue el cs</span>
+        <span class="k">return</span> <span class="n">NssField</span><span class="o">.</span><span class="n">autocomplete</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">reg</span><span class="si">}{</span><span class="n">afi</span><span class="si">}{</span><span class="n">nac</span><span class="si">}{</span><span class="n">fol</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Mexa  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../mexa.html" >mexa</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mexa.NssField</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023 Miguel Angel Marcial Martínez.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>
