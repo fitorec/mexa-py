@@ -105,6 +105,7 @@ div.sphinxsidebar h3 a {
 div.sphinxsidebar p {
     color: #888;
     padding: 5px 20px;
+    text-transform: capitalize;
 }
 
 div.sphinxsidebar p.topless {
