@@ -35,7 +35,10 @@
           {%- if not loop.first %}{{ reldelim2 }}{% endif %}</li>
         {%- endfor %}
         {%- block rootrellink %}
-        <li class="nav-item nav-item-0"><a href="{{ pathto(root_doc)|e }}">{{ shorttitle|e }}</a>{{ reldelim1 }}</li>
+        <li class="nav-item nav-item-0">
+            <a itemprop="url" href="{{ pathto(root_doc)|e }}">{{ shorttitle|e }}</a>
+            {{ reldelim1 }}
+        </li>
         {%- endblock %}
         {%- for parent in parents %}
           <li class="nav-item nav-item-{{ loop.index }}"><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>{{ reldelim1 }}</li>
@@ -147,6 +150,8 @@
     <meta property="og:image:height" content="640" />
     <meta property="og:image:type" content="image/png" />
     <!-- Ejemplo de github -->
+    <!-- Author -->
+    <link rel="author" title="Miguel Angel Marcial Martinez" href="https://fitorec.github.io" />
 
 <!--    {% if theme_twitter_id %} -->
 <!--    {% endif %} -->
@@ -193,7 +198,7 @@
 {%- block content %}
   {%- block sidebar1 %} {# possible location for sidebar #} {% endblock %}
 
-    <div class="document">
+    <div class="document" itemscope itemtype="https://schema.org/SoftwareSourceCode">
   {%- block document %}
       <div class="documentwrapper">
       {%- if render_sidebar %}
@@ -222,7 +227,10 @@
       {%- if hasdoc('copyright') %}
         {% trans path=pathto('copyright'), copyright=copyright|e %}&#169; <a href="{{ path }}">Copyright</a> {{ copyright }}.{% endtrans %}
       {%- else %}
-        {% trans copyright=copyright|e %}&#169; Copyright {{ copyright }}.{% endtrans %}
+        {% trans copyright=copyright|e %}&#169; Copyright
+        <span itemprop="author">
+            {{ copyright }}.{% endtrans %}
+        </span>
       {%- endif %}
     {%- endif %}
     {%- if last_updated %}

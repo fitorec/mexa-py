@@ -4,7 +4,7 @@ readme = open('./README.md', 'r')
 
 setup(
     name = 'mexa',
-    version = '0.7',
+    version = '0.0.7',
     packages=['mexa'],
     description = 'Validador y Generador de campos para tramites mexicanos',
     author='@Fitorec - Miguel Angel Marcial Martinez',

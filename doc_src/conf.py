@@ -13,8 +13,9 @@ sys.path.insert(0, os.path.abspath('../mexa'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Mexa'
-copyright = '2023 Miguel Angel Marcial Martínez'
+copyright = '@Fitorec - Miguel Angel Marcial Martínez'
 author = 'Miguel Angel Marcial Martínez'
+version = '0.0.7'
 
 ##
 html_context = {
