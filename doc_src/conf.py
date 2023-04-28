@@ -56,3 +56,6 @@ html_domain_indices = ['mexa']
 #
 language = 'es'
 
+# html_favicon = "https://fitorec.github.io/mexa-py/_static/plus.png"
+html_favicon = "_static/favicon.ico"
+
