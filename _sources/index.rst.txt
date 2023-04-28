@@ -20,7 +20,7 @@ Documentación Mexa
 
 
 Instalación y Ejemplo:
-======================
+-----------------------------------------
 
 Para facilitar el uso el paquete esta `disponible en PyPi <https://pypi.org/project/mexa/>`_ por lo cual una forma simple de acceder el paquete es desde **pip**:
 
@@ -48,7 +48,7 @@ Una vez instalado el paquete lo puedes usar importandolo como cualquier paquete 
    validate('curp', value = curp) # True
 
 Lista de módulos disponibles
-============================================
+-----------------------------------------
 
 .. toctree::
    :maxdepth: 4
@@ -60,7 +60,7 @@ Lista de módulos disponibles
 #   mexa
 
 Indices and tables
-==================
+-----------------------------------------
 
 * :ref:`genindex`
 * :ref:`search`
