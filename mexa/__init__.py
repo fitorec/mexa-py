@@ -1,10 +1,10 @@
-'''Mexa validador y generador de campos'''
+"""Mexa validador y generador de campos"""
 from mexa.NssField import NssField as Nss
 from mexa.CurpField import CurpField as Curp, CurpTools
 
 
 def generate(type_field, data):
-    '''genera a partir de los datos recibidos'''
+    """genera a partir de los datos recibidos"""
     if type_field == 'nss':
         return Nss.generate(data)
     if type_field == 'curp':
@@ -12,11 +12,11 @@ def generate(type_field, data):
     raise TypeError(f"Tipo invalido: {type_field}")
 
 def fake(type_field):
-    '''faker'''
+    """faker"""
     return generate(type_field, {})
 
 def validate(type_field, value, match = None):
-    '''Valida el type_field el valor'''
+    """Valida el type_field el valor"""
     if type_field == 'nss':
         return Nss.is_valid(value, match)
     if type_field == 'curp':

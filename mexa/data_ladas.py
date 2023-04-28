@@ -1,7 +1,7 @@
-'''
+"""
 Contiene las ladas de México, infomración extraida del PDF de ladas,
 para mayores detalles revisar documentación.
-'''
+"""
 data_ladas = [
     222, 223, 224, 225, 226, 227, 228, 229, 231, 232, 233, 235, 236, 237, 238,
     241, 243, 244, 245, 246, 247, 248, 249, 271, 272, 273, 274, 275, 276, 278,

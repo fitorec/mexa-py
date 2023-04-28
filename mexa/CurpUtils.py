@@ -1,8 +1,8 @@
 # encoding: utf-8
-'''
+"""
 Módulo que contiene un conjunto de utilerías diseñadas
 para darle soporte a la Clase: CurpField
-'''
+"""
 import re
 import math
 import datetime
@@ -17,38 +17,93 @@ VOWELS = "AEIOU"
 CONSONANTS = [letter for letter in ALPHABET if letter not in VOWELS]
 
 class Rand():
-    '''Devuelve aleatoriamente diferentes elementos'''
+    """Devuelve aleatoriamente diferentes elementos"""
+
     @staticmethod
     def digito():
-        '''Regresa un valor aleatorio entre 0 a 9'''
+        """
+        Regresa un valor aleatorio entre 0 a 9
+
+        :return: i ∈ (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+        :rtype: int
+
+        Example:
+
+        >>> Rand.digito() # 3 (por ejemplo)
+        """
         return str(randint(0, 9))
 
 
     @staticmethod
     def vocal():
-        '''Regresa un valor aleatorio entre 0 a 9'''
+        """
+        Regresa una vocal aleatoriamente
+
+        :return: s ∈ (A, E, I, O , U)
+        :rtype: str
+
+        Example:
+
+        >>> Rand.digito() # 3 (por ejemplo)
+        """
         return choice(VOWELS)
 
 
     @staticmethod
     def consonante():
-        '''Regresa un valor aleatorio entre 0 a 9'''
+        """
+        Devuelve una consonante de manera aleatoria.
+
+        :return: (s ∈ ALPHABET) ^ (s ∉ VOWELS)
+        :rtype: str
+
+        Example:
+
+        >>> Rand.consonante() # M (por ejemplo)
+        """
         return choice(CONSONANTS)
 
     @staticmethod
     def sexo():
-        '''Devuelve el sexo en modo aleatorio'''
+        """
+        Devuelve el sexo en modo aleatorio
+
+        :return: s ∈ (H, M)
+        :rtype: str
+
+        Example:
+
+        >>> Rand.sexo() # M (por ejemplo)
+        """
         return choice(['H', 'M'])
 
     @staticmethod
     def estado():
-        '''Devuelve un estado aleatorio'''
+        """
+        Devuelve el código de un estado de forma aleatoria
+
+        :return: s ∈ ESTADOS_CODIGOS
+        :rtype: str
+
+        Example:
+
+        >>> Rand.estado() # "MN" ("Michoacán de Ocampo",por ejemplo)
+        """
         return choice(list(estados.keys()))
 
 
     @staticmethod
-    def fecha():
-        '''Devuelve un estado aleatorio'''
+    def fecha() -> str:
+        """
+        Devuelve una fecha aleatoria en formato de 6 carácteres.
+
+        :return: AAMMDD
+        :rtype: str
+
+        Example:
+
+        >>> Rand.fecha() # "200229" ("29/feb/2020", por ejemplo)
+        """
         y_actual = datetime.date.today().year
         y = randint(y_actual - 80, y_actual - 10)
         m = randint(1, 12)
@@ -58,21 +113,24 @@ class Rand():
 
 
 class CurpTools():
-    '''Clase que modela el CURP'''
+    """Clase que modela el CURP"""
     @staticmethod
-    def sanitizar(value):
-        '''Sanitiza un string'''
+    def sanitizar(value:str) -> str:
+        """
+        Recibe un string y devuelve su equivalente normalizado.
+
+        :param value: valor del str a sanitizar.
+        :type value: str
+        :return: el str sanitizado.
+        :rtype:str
+
+        """
         remplazos = {
-            'A': ['Ã', 'À', 'Á', 'Ä', 'Â'],
-            'E': ['È', 'É', 'Ë', 'Ê'],
-            'I': ['Ì', 'Í', 'Ï', 'Î'],
-            'O': ['Ò', 'Ó', 'Ö', 'Ô'],
-            'U': ['Ù', 'Ú', 'Ü', 'Û'],
-            'a': ['ã', 'à', 'á', 'ä', 'â'],
-            'e': ['è', 'é', 'ë', 'ê'],
-            'i': ['ì', 'í', 'ï', 'î'],
-            'o': ['ò', 'ó', 'ö', 'ô'],
-            'u': ['ù', 'ú', 'ü', 'û'],
+            'A': ['Ã', 'À', 'Á', 'Ä', 'Â', 'ã', 'à', 'á', 'ä', 'â'],
+            'E': ['È', 'É', 'Ë', 'Ê', 'è', 'é', 'ë', 'ê'],
+            'I': ['Ì', 'Í', 'Ï', 'Î', 'ì', 'í', 'ï', 'î'],
+            'O': ['Ò', 'Ó', 'Ö', 'Ô', 'ò', 'ó', 'ö', 'ô'],
+            'U': ['Ù', 'Ú', 'Ü', 'Û', 'ù', 'ú', 'ü', 'û'],
             'C': ['Ç', 'ç'],
             'X': ['ñ', 'Ñ'],
         }
@@ -91,39 +149,88 @@ class CurpTools():
 
 
     @staticmethod
-    def primer_vocal_interna(value):
-        '''Sanitiza un string'''
-        if len(value) == 0:
+    def primer_vocal_interna(palabra:str) -> str:
+        """
+        Devuelve la primer vocal de parabra
+
+        :param palabra: La palabra sobre en cual se buscará la primer vocal.
+        :type palabra: str
+        :return: La primer vocal interna encontrada, Si no encuentra devuelve X
+        :rtype: str
+
+        Example:
+
+        >>> CurpTools.primer_vocal_interna('OLLA') # A
+        >>> CurpTools.primer_vocal_interna('ELY')  # X (no encontró)
+        """
+        if len(palabra) == 0:
             return 'X'
-        for c in value[1:]:
+        for c in palabra[1:]:
             if c in ('A','E','I','O','U'):
                 return c
         return 'X'
 
 
     @staticmethod
-    def primer_consonante_interna(value):
-        '''Sanitiza un string'''
-        if len(value) == 0:
+    def primer_consonante_interna(palabra):
+        """
+        Devuelve el valor de la primer consonante interna en palabra
+
+        :param palabra: palabra con la que se van a trabajar.
+        :type palabra: str
+        :return: El valor de la primer consonante.
+        :rtype: str
+
+        Example:
+
+        >>> CurpTools.primer_consonante_interna('JOEL') # L
+        >>> CurpTools.primer_consonante_interna('TIO')  # X (No se encontró)
+        """
+        if len(palabra) == 0:
             return 'X'
-        for c in value[1:]:
+        for c in palabra[1:]:
             if c not in ('A','E','I','O','U'):
                 return c
         return 'X'
 
 
     @staticmethod
-    def primer_letra(s):
-        '''Sanitiza un string'''
-        return s[0] if len(s) else 'X'
+    def primer_letra(palabra: str) -> str:
+        """
+        Devuelve la primer letra de la palabra recibida.
+
+        :param palabra: La parabra en la que se extrae el primer caracter.
+        :type palabra: str
+        :return: la primer letra en caso que la cadena es vacia regresa X
+        :rtype: str
+
+        Example:
+
+        >>> CurpTools.primer_letra('JOEL')    # J
+        >>> CurpTools.primer_letra('Miguel')  # M
+        """
+        return palabra[0] if len(palabra) else 'X'
 
 
-    # Cuando el nombre o los apellidos son compuestos y tienen
-    # proposiciones, contracciones o conjunciones, se deben eliminar esas palabras
+    #
+    #
     # a la hora de calcular el CURP.
     @staticmethod
     def quitar_conjunciones(s):
-        '''Devuelve el nombre de pila'''
+        """
+        Cuando el nombre o los apellidos son compuestos y tienen proposiciones,
+        contracciones o conjunciones, se deben eliminar esas palabras son eliminadas.
+
+        :param s: string el cual se le quitaran las conjunciones.
+        :type s: str
+        :return: El texto de entrada sin contracciones, conjunciones, etc..
+        :rtype: str
+
+        Example:
+
+        >>> CurpTools.quitar_conjunciones("DE LA CRUZ") # "CRUZ"
+        >>> CurpTools.quitar_conjunciones("DEL CUELLO DI ANGEL") # "CUELLO ANGEL"
+        """
         parts = CurpTools.sanitizar(s).split(' ')
         if len(parts) == 1:
             return parts[0]
@@ -136,8 +243,21 @@ class CurpTools():
 
 
     @staticmethod
-    def limpiar_mal_palabra(nombre):
-        '''Quita una mala palabra'''
+    def limpiar_mal_palabra(palabra:str) -> str:
+        """
+        Transforma una "mala palabra".
+
+        :param palabra: Palabra a buscar si es "mala palabra".
+        :type palabra: str
+        :return: la palabra original en caso de ser "mala" la limpia.
+        :rtype: str
+
+        Example:
+
+        >>> CurpTools.limpiar_mal_palabra("CACA") # "CXCA"
+        >>> CurpTools.limpiar_mal_palabra("HOLA") # "HOLA" (sin cambio)
+        >>> CurpTools.limpiar_mal_palabra("PITO") # "PXTO"
+        """
         malasPalabras = [
           'BACA', 'BAKA', 'BUEI', 'BUEY', 'CACA', 'CACO', 'CAGA', 'CAGO', 'CAKA',
           'CAKO', 'COGE', 'COGI', 'COJA', 'COJE', 'COJI', 'COJO', 'COLA', 'CULO',
@@ -149,14 +269,29 @@ class CurpTools():
           'PUTA', 'PUTO', 'QULO', 'RATA', 'ROBA', 'ROBE', 'ROBO', 'RUIN', 'SENO',
           'TETA', 'VACA', 'VAGA', 'VAGO', 'VAKA', 'VUEI', 'VUEY', 'WUEI', 'WUEY'
         ]
-        if nombre not in malasPalabras:
-            return nombre
-        return f'{nombre[0]}X{nombre[2:4]}'
+        if palabra not in malasPalabras:
+            return palabra
+        return f'{palabra[0]}X{palabra[2:4]}'
 
 
     @staticmethod
-    def nombre_de_pila(nombre):
-        '''Devuelve el nombre de pila'''
+    def nombre_de_pila(nombre:str) -> str:
+        """
+        Devuelve el nombre de pila, en donde si el primer nombre es María o
+        José devolverá el segundo nombre.
+
+        :param nombre: Nombre del que se sacará el nombre de pila
+        :type nombre: str
+        :return: Nombre de pila
+        :rtype: str
+
+        Example:
+
+        >>> CurpTools.nombre_de_pila("JOSE ANGEL")   # "ANGEL"
+        >>> CurpTools.nombre_de_pila("MA. FERNANDA") # "FERNANDA"
+        >>> CurpTools.nombre_de_pila("JUAN ANGEL")   # "JUAN"
+        >>> CurpTools.nombre_de_pila("J. DEL CIELO") # "CIELO"
+        """
         parts = CurpTools.quitar_conjunciones(nombre).split(' ')
         if len(parts) <= 1:
             return parts[0]
@@ -167,21 +302,40 @@ class CurpTools():
         return parts[0] if len(parts) else 'X'
 
     @staticmethod
-    def anio(last2_digits, homo_serial):
-        '''
-            Devuelve al año, agregando los primeros digitos, esto si la parte de la
-            homoclave que genera la serialización para evitar curps repetidos Si es
-            mayor a A entonces nacio despues del año 2000
-        '''
+    def anio(last2_digits:str, homo_serial:str) -> int:
+        """
+        Devuelve al año, agregando los primeros digitos, esto si la parte de la
+        homoclave que genera la serialización para evitar curps repetidos Si es
+        mayor a A entonces nacio despues del año 2000
+
+        :param last2_digits: Los dos ultimos digitos del año.
+        :type last2_digits: str
+        :param homo_serial: Valor de la homoclave
+        :type homo_serial: str
+        :return: El año obtenido.
+        :rtype: int
+
+        Example:
+
+        >>> CurpTools.anio("20", "0") # 1920
+        >>> CurpTools.anio("20", "A") # 2020
+        """
         y = int(last2_digits)
         if math.isnan(y):
             return None
-        centenas = 19 if homo_serial in '12345667890' else 20
+        centenas = 19 if homo_serial in "01234566789" else 20
         return (centenas * 100) + y
 
     @staticmethod
-    def fecha_to_6digits(fecha):
-        '''Recibe una fecha y la normaliza a formato AAMMDD'''
+    def fecha_to_6digits(fecha) -> str:
+        """
+        Recibe una fecha y la normaliza a formato AAMMDD
+
+        :param fecha: La fecha
+        :return: La fecha en formato AAMMDD
+        :rtype: str
+
+        """
         if isinstance(fecha, datetime.date):
             fecha = fecha.strftime("%Y-%m-%d")
         if not isinstance(fecha, str):
@@ -194,7 +348,15 @@ class CurpTools():
 
     @staticmethod
     def estado_to_2chars(edo):
-        '''Recibe el estado devuelve el código del mismo a dos caracteres'''
+        """
+        Recibe el estado devuelve el código del mismo a dos caracteres
+
+        :param edo: El nombre del estado
+        :type edo: str
+        :return: El codigo del estado
+        :rtype: str
+
+        """
         if len(edo) != 2:
             try:
                 index = list(estados.values()).index(edo)

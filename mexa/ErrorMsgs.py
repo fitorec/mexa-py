@@ -1,4 +1,4 @@
-'''Contiene todos los mensajes de error'''
+"""Contiene todos los mensajes de error"""
 
 # Errores para el NSS
 NSS_ERRORS = {

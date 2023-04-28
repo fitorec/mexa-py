@@ -1,5 +1,5 @@
 # encoding: utf-8
-'''Clase encargada del Nss'''
+"""Clase encargada del Nss"""
 import random
 from mexa.core import FieldInterface, year_by_last2digit, Partes
 from mexa.ErrorMsgs import NSS_ERRORS as ERRORS
@@ -12,13 +12,13 @@ FOLIO_IMSS = 4
 CHECKSUM = 5
 
 class NssField(FieldInterface):
-    '''Clase que modela el Nss'''
+    """Clase que modela el Nss"""
     errorMsgs = ERRORS
     # region_imss, anio_alta, anio_nacimiento, folio_imss, checksum
 
     @staticmethod
     def nss_checksum(nss):
-        '''Recibe un string que representa el nss, regresa el checksum'''
+        """Recibe un string que representa el nss, regresa el checksum"""
         if len(nss) < 10:
             NssField.error_msg = None
             return -1
@@ -33,7 +33,7 @@ class NssField(FieldInterface):
 
     @staticmethod
     def is_valid(value, match = None):
-        '''Devuelve true si value es valido'''
+        """Devuelve true si value es valido"""
         NssField.clear_errors()
         if len(value) != 11:
             NssField.add_error(code = 100)
@@ -58,7 +58,7 @@ class NssField(FieldInterface):
 
     @staticmethod
     def autocomplete(value):
-        '''Devuelve true si value es valido'''
+        """Devuelve true si value es valido"""
         if len(value) != 10:
             return value
         cs = NssField.nss_checksum(value)
@@ -67,14 +67,14 @@ class NssField(FieldInterface):
 
     @staticmethod
     def anios(data  = None):
-        '''
+        """
         Devuelve un arreglo con los años de nacimiento y afiliacion
 
         :param dic data: Los datos el cual puede contener fecha_nacimiento
                         y f_afiliacion de existir deberán ser tomados
                         en cuenta estos valores.
         :return: Arreglo ordenado de la forma [fecha_nacimiento, f_afiliacion]
-        '''
+        """
         if data is None:
             data  = {}
         if 'fecha_nacimiento' in data and 'f_afiliacion' in data:
@@ -103,12 +103,12 @@ class NssField(FieldInterface):
 
     @staticmethod
     def generate(data = None):
-        '''
+        """
         Genera un Nss a partir de los datos recibidos.
 
         :param dic data: Los valores contenidos deberán ser tomados en cuenta.
         :return: str nss Un número del Seguro Social válido
-        '''
+        """
         if data is None:
             data  = {}
         reg = data['region_imss'] if 'region_imss' in data else random.randrange(0, 99)
