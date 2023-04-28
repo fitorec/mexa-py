@@ -59,3 +59,7 @@ language = 'es'
 # html_favicon = "https://fitorec.github.io/mexa-py/_static/plus.png"
 html_favicon = "_static/favicon.ico"
 
+html_extra_path = [
+    'googlea11b41b3c9bef9de.html'
+]
+
