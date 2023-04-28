@@ -1,3 +1,16 @@
+.. |github_link| raw:: html
+
+    <a href="https://github.com/fitorec/mexa-py">Ver en GitHub</a>
+
+
+.. sidebar:: Navigation
+
+   * |github_link|
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`
+
+
 Documentación Mexa
 ==================================
 

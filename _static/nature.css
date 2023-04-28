@@ -259,12 +259,12 @@ dl.field-list.simple dt {
     background: #EEE;
 }
 dt.sig.sig-object.py {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 dt.sig.sig-object.py .viewcode-link .pre {
     font-size: .8rem;
 }
 
 .py.class > p:nth-child(1) {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
