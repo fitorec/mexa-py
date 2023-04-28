@@ -112,7 +112,7 @@ def test_gen_id_nombre():
             # break
         assert id_nombre == id_esperado
         #
-        id2 = Curp.gen_id2_nombre(c)
+        id2 = Curp.gen_consonantes_nombre(c)
         id2_esperado = c['curp'][13:16]
         if not id2 == id2_esperado:
             print(c)
