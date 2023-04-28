@@ -5,6 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta content="Mexa Generador, Validador de campos para tramitologia Mexicana" name="description" />
+<meta content="Mexa, curp, nss, clabe, rfc, checksum, validador, faker" name="keywords" />
 
     <title>Documentación Mexa &#8212; documentación de Mexa - </title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -13,6 +15,16 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/translations.js"></script>
+
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@fitorec"/>
+    <meta name="twitter:title" content="Mexa"/>
+    <meta name="twitter:description" content="Documentacion Oficial Mexa"/>
+    <meta name="twitter:image" content="https://fitorec.github.io/mexa-py/_images/mexa_banner.png"/>
+<!--     -->
+    <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
     <link rel="next" title="mexa" href="modules.html" /> 
@@ -36,28 +48,31 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <aside class="sidebar">
-<p class="sidebar-title">Navigation</p>
-<ul class="simple">
-<li><p><a href="https://github.com/fitorec/mexa-py">Ver en GitHub</a></p></li>
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Índice</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Índice de Módulos</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Página de Búsqueda</span></a></p></li>
-</ul>
-</aside>
-<section id="documentacion-mexa">
+  <section id="documentacion-mexa">
 <h1>Documentación Mexa<a class="headerlink" href="#documentacion-mexa" title="Enlace permanente a este encabezado">¶</a></h1>
 <img alt="Mexa Banner" class="align-center" src="_images/mexa_banner.png" />
 </section>
 <section id="instalacion-y-ejemplo">
 <h1>Instalación y Ejemplo:<a class="headerlink" href="#instalacion-y-ejemplo" title="Enlace permanente a este encabezado">¶</a></h1>
-<p>Debes instalar antes el paquete:</p>
+<p>Para facilitar el uso el paquete esta <a class="reference external" href="https://pypi.org/project/mexa/">disponible en PyPi</a> por lo cual una forma simple de acceder el paquete es desde <strong>pip</strong>:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>mexa
 </pre></div>
 </div>
 <p>Una vez instalado el paquete lo puedes usar importandolo como cualquier paquete de python, por ejemplo:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mexa</span> <span class="kn">import</span> <span class="n">fake</span><span class="p">,</span> <span class="n">validate</span><span class="p">,</span> <span class="n">Nss</span><span class="p">,</span> <span class="n">Curp</span><span class="p">,</span> <span class="n">generate</span>
-<span class="n">nss</span> <span class="o">=</span> <span class="n">fake</span><span class="p">(</span><span class="s1">&#39;nss&#39;</span><span class="p">)</span> <span class="c1"># Valor valido por ejemplo `48979152914`</span>
+
+<span class="c1"># Generando datos</span>
+<span class="n">nss</span> <span class="o">=</span> <span class="n">fake</span><span class="p">(</span><span class="s1">&#39;nss&#39;</span><span class="p">)</span> <span class="c1"># Número de Seguro social válido por ejemplo `48979152914`</span>
+<span class="n">curp</span> <span class="o">=</span> <span class="n">fake</span><span class="p">(</span><span class="s1">&#39;curp&#39;</span><span class="p">)</span> <span class="c1"># CURP válido por ejemplo `AAMR850214MGRBRN01`</span>
+
+<span class="c1"># Validando datos</span>
+<span class="c1"># Caso especial el de &quot;Chabelo&quot; que nacio en el extrangero</span>
+<span class="c1"># Por lo cual su entidad federativa es &quot;NE&quot; (No especificada)</span>
+<span class="n">curp_especial</span> <span class="o">=</span> <span class="s1">&#39;LORX350217HNEPDV08&#39;</span>
+<span class="n">validate</span><span class="p">(</span><span class="s1">&#39;curp&#39;</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">curp_especial</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="c1"># Los valores generados previamente por fake deberían ser correctos</span>
+<span class="n">validate</span><span class="p">(</span><span class="s1">&#39;nss&#39;</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">nss</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="n">validate</span><span class="p">(</span><span class="s1">&#39;curp&#39;</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">curp</span><span class="p">)</span> <span class="c1"># True</span>
 </pre></div>
 </div>
 </section>
@@ -143,8 +158,20 @@
       <li><a href="_sources/index.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
-    <h1>Fitorec El papi Chulo</h1>
    </div>
+
+
+<div>
+    <h3>Enlaces externos</h3>
+    <ul>
+        <li>
+            <a href="https://github.com/fitorec/mexa-py">Repositorio en Github</a>
+        </li>
+        <li>
+            <a href="https://pypi.org/project/mexa/">Disponible en PyPi</a>
+        </li>
+    </ul>
+</div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Búsqueda rápida</h3>
     <div class="searchformwrapper">
