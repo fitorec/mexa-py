@@ -9,6 +9,27 @@
     <a href="https://github.com/fitorec/mexa-py">Ver en GitHub</a>
 
 
+
+Pruebas
+-----------------------
+
+.. epigraph::
+
+   No matter where you go, there you are.
+
+   -- Buckaroo Banzai
+
+.. compound::
+
+   The 'rm' command is very dangerous.  If you are logged
+   in as root and enter ::
+
+       cd /
+       rm -rf *
+
+   you will erase the entire contents of your file system.
+
+
 Teoría sobre el CURP
 ==================================
 
