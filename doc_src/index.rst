@@ -22,11 +22,16 @@ Documentación Mexa
 Instalación y Ejemplo:
 -----------------------------------------
 
-Para facilitar el uso el paquete esta `disponible en PyPi <https://pypi.org/project/mexa/>`_ por lo cual una forma simple de acceder el paquete es desde **pip**:
+.. compound::
 
-.. code-block:: shell
+   Para facilitar el uso el paquete esta `disponible en PyPi <https://pypi.org/project/mexa/>`_ por lo cual una forma simple de acceder el paquete es desde **pip**: ::
 
-    pip install mexa
+      # Desde tu entorno virtual puedes instalar mexa directo desde pip
+      pip install mexa
+
+   Esto debería instalar Mexa en su última versión, puedes ver el paquete con: ``pip freeze``.
+
+    
 
 Una vez instalado el paquete lo puedes usar importandolo como cualquier paquete de python, por ejemplo:
 
@@ -54,7 +59,7 @@ Lista de módulos disponibles
    :maxdepth: 4
    :caption: Estructura de módulos:
 
-
+   teoria_curp.rst
    modules
 
 #   mexa

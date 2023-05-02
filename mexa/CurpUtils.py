@@ -21,10 +21,11 @@ class Rand():
 
     @staticmethod
     def digito():
-        """
-        Regresa un valor aleatorio entre 0 a 9
+        """Regresa un valor aleatorio entre 0 a 9
 
-        :return: i ∈ (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+        :returns: i ∈ (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+
         :rtype: int
 
         Example:
@@ -36,10 +37,11 @@ class Rand():
 
     @staticmethod
     def vocal():
-        """
-        Regresa una vocal aleatoriamente
+        """Regresa una vocal aleatoriamente
 
-        :return: s ∈ (A, E, I, O , U)
+
+        :returns: s ∈ (A, E, I, O , U)
+
         :rtype: str
 
         Example:
@@ -51,10 +53,11 @@ class Rand():
 
     @staticmethod
     def consonante():
-        """
-        Devuelve una consonante de manera aleatoria.
+        """Devuelve una consonante de manera aleatoria.
 
-        :return: (s ∈ ALPHABET) ^ (s ∉ VOWELS)
+
+        :returns: s ∈ ALPHABET) ^ (s ∉ VOWELS)
+
         :rtype: str
 
         Example:
@@ -65,10 +68,11 @@ class Rand():
 
     @staticmethod
     def sexo():
-        """
-        Devuelve el sexo en modo aleatorio
+        """Devuelve el sexo en modo aleatorio
 
-        :return: s ∈ (H, M)
+
+        :returns: s ∈ (H, M)
+
         :rtype: str
 
         Example:
@@ -79,10 +83,11 @@ class Rand():
 
     @staticmethod
     def estado():
-        """
-        Devuelve el código de un estado de forma aleatoria
+        """Devuelve el código de un estado de forma aleatoria
 
-        :return: s ∈ ESTADOS_CODIGOS
+
+        :returns: s ∈ ESTADOS_CODIGOS
+
         :rtype: str
 
         Example:
@@ -94,10 +99,11 @@ class Rand():
 
     @staticmethod
     def fecha() -> str:
-        """
-        Devuelve una fecha aleatoria en formato de 6 carácteres.
+        """Devuelve una fecha aleatoria en formato de 6 carácteres.
 
-        :return: AAMMDD
+
+        :returns: AAMMDD
+
         :rtype: str
 
         Example:
@@ -116,13 +122,13 @@ class CurpTools():
     """Clase que modela el CURP"""
     @staticmethod
     def sanitizar(value:str) -> str:
-        """
-        Recibe un string y devuelve su equivalente normalizado.
+        """Recibe un string y devuelve su equivalente normalizado.
 
         :param value: valor del str a sanitizar.
         :type value: str
-        :return: el str sanitizado.
-        :rtype:str
+        :param value:str: 
+        :returns: el str sanitizado.
+        :rtype: str
 
         """
         remplazos = {
@@ -150,12 +156,12 @@ class CurpTools():
 
     @staticmethod
     def primer_vocal_interna(palabra:str) -> str:
-        """
-        Devuelve la primer vocal de parabra
+        """Devuelve la primer vocal de parabra
 
         :param palabra: La palabra sobre en cual se buscará la primer vocal.
         :type palabra: str
-        :return: La primer vocal interna encontrada, Si no encuentra devuelve X
+        :param palabra:str: 
+        :returns: La primer vocal interna encontrada, Si no encuentra devuelve X
         :rtype: str
 
         Example:
@@ -173,12 +179,11 @@ class CurpTools():
 
     @staticmethod
     def primer_consonante_interna(palabra):
-        """
-        Devuelve el valor de la primer consonante interna en palabra
+        """Devuelve el valor de la primer consonante interna en palabra
 
         :param palabra: palabra con la que se van a trabajar.
         :type palabra: str
-        :return: El valor de la primer consonante.
+        :returns: El valor de la primer consonante.
         :rtype: str
 
         Example:
@@ -196,12 +201,12 @@ class CurpTools():
 
     @staticmethod
     def primer_letra(palabra: str) -> str:
-        """
-        Devuelve la primer letra de la palabra recibida.
+        """Devuelve la primer letra de la palabra recibida.
 
         :param palabra: La parabra en la que se extrae el primer caracter.
         :type palabra: str
-        :return: la primer letra en caso que la cadena es vacia regresa X
+        :param palabra: str: 
+        :returns: la primer letra en caso que la cadena es vacia regresa X
         :rtype: str
 
         Example:
@@ -217,13 +222,12 @@ class CurpTools():
     # a la hora de calcular el CURP.
     @staticmethod
     def quitar_conjunciones(s):
-        """
-        Cuando el nombre o los apellidos son compuestos y tienen proposiciones,
+        """Cuando el nombre o los apellidos son compuestos y tienen proposiciones,
         contracciones o conjunciones, se deben eliminar esas palabras son eliminadas.
 
         :param s: string el cual se le quitaran las conjunciones.
         :type s: str
-        :return: El texto de entrada sin contracciones, conjunciones, etc..
+        :returns: El texto de entrada sin contracciones, conjunciones, etc..
         :rtype: str
 
         Example:
@@ -244,12 +248,12 @@ class CurpTools():
 
     @staticmethod
     def limpiar_mal_palabra(palabra:str) -> str:
-        """
-        Transforma una "mala palabra".
+        """Transforma una "mala palabra".
 
         :param palabra: Palabra a buscar si es "mala palabra".
         :type palabra: str
-        :return: la palabra original en caso de ser "mala" la limpia.
+        :param palabra:str: 
+        :returns: la palabra original en caso de ser "mala" la limpia.
         :rtype: str
 
         Example:
@@ -276,13 +280,13 @@ class CurpTools():
 
     @staticmethod
     def nombre_de_pila(nombre:str) -> str:
-        """
-        Devuelve el nombre de pila, en donde si el primer nombre es María o
+        """Devuelve el nombre de pila, en donde si el primer nombre es María o
         José devolverá el segundo nombre.
 
         :param nombre: Nombre del que se sacará el nombre de pila
         :type nombre: str
-        :return: Nombre de pila
+        :param nombre:str: 
+        :returns: Nombre de pila
         :rtype: str
 
         Example:
@@ -303,8 +307,7 @@ class CurpTools():
 
     @staticmethod
     def anio(last2_digits:str, homo_serial:str) -> int:
-        """
-        Devuelve al año, agregando los primeros digitos, esto si la parte de la
+        """Devuelve al año, agregando los primeros digitos, esto si la parte de la
         homoclave que genera la serialización para evitar curps repetidos Si es
         mayor a A entonces nacio despues del año 2000
 
@@ -312,7 +315,9 @@ class CurpTools():
         :type last2_digits: str
         :param homo_serial: Valor de la homoclave
         :type homo_serial: str
-        :return: El año obtenido.
+        :param last2_digits:str: 
+        :param homo_serial:str: 
+        :returns: El año obtenido.
         :rtype: int
 
         Example:
@@ -328,11 +333,10 @@ class CurpTools():
 
     @staticmethod
     def fecha_to_6digits(fecha) -> str:
-        """
-        Recibe una fecha y la normaliza a formato AAMMDD
+        """Recibe una fecha y la normaliza a formato AAMMDD
 
         :param fecha: La fecha
-        :return: La fecha en formato AAMMDD
+        :returns: La fecha en formato AAMMDD
         :rtype: str
 
         """
@@ -348,12 +352,11 @@ class CurpTools():
 
     @staticmethod
     def estado_to_2chars(edo):
-        """
-        Recibe el estado devuelve el código del mismo a dos caracteres
+        """Recibe el estado devuelve el código del mismo a dos caracteres
 
         :param edo: El nombre del estado
         :type edo: str
-        :return: El codigo del estado
+        :returns: El codigo del estado
         :rtype: str
 
         """
