@@ -1,0 +1,701 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta content="Mexa Generador, Validador de campos para tramitologia Mexicana" name="description" />
+<meta content="Mexa, curp, nss, clabe, rfc, checksum, validador, faker" name="keywords" />
+
+    <title>Teoría sobre el CURP &#8212; documentación de Mexa - </title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/translations.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@fitorec"/>
+    <meta name="twitter:title" content="Documentación Oficial Mexa"/>
+    <meta name="twitter:description" content="Mexa: Validador y Generador de campos para tramites mexicanos(NSS, CURP, RFC, CLABE)"/>
+    <meta name="twitter:image" content="https://fitorec.github.io/mexa-py/_images/mexa_banner.png"/>
+    <!-- Facebook OpenGraph -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="Sitio de Documentación: Mexa"/>
+    <meta property="og:title" content="Mexa: Validador y Generador de campos para tramites mexicanos(NSS, CURP, RFC, CLABE...)"/>
+    <meta property="og:description" content="Mexa: Validador y Generador de campos para tramites mexicanos(NSS, CURP, RFC, CLABE)"/>
+    <meta property="og:image" content="https://fitorec.github.io/mexa-py/_images/mexa_banner.png"/>
+    <meta property="og:image:alt" content="Mexa: Validador y Generador de campos para tramites mexicanos(NSS, CURP, RFC, CLABE...) - fitorec/mexa-py: Mexa: Validador y Generador de campos para tramites mexicanos(NSS, CURP, RFC, CLABE...)" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="640" />
+    <meta property="og:image:type" content="image/png" />
+    <!-- Ejemplo de github -->
+    <!-- Author -->
+    <link rel="author" title="Miguel Angel Marcial Martinez" href="https://fitorec.github.io" />
+
+<!--     -->
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="mexa" href="modules.html" />
+    <link rel="prev" title="Documentación Mexa" href="index.html" /> 
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXT2RKZ');</script>
+<!-- End Google Tag Manager -->
+
+  </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L77Z9YG8F2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L77Z9YG8F2');
+</script><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="modules.html" title="mexa"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentación Mexa"
+             accesskey="P">anterior</a> |</li>
+        <li class="nav-item nav-item-0">
+            <a itemprop="url" href="index.html">documentación de Mexa - </a>
+             &#187;
+        </li>
+        <li class="nav-item nav-item-this"><a href="">Teoría sobre el CURP</a></li> 
+      </ul>
+    </div>  
+
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-WXT2RKZ"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden">
+    </iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div class="document" itemscope itemtype="https://schema.org/SoftwareSourceCode">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="teoria-sobre-el-curp">
+<h1>Teoría sobre el CURP<a class="headerlink" href="#teoria-sobre-el-curp" title="Enlace permanente a este encabezado">¶</a></h1>
+<p>El <strong>CURP</strong> (<em>Clave Única de Registro de Población</em>) es un documento de identificación personal en México que se utiliza para una amplia gama de propósitos oficiales, incluyendo la educación, la salud, el empleo y el registro de votantes.</p>
+<section id="usos-tipicos-del-curp-son">
+<h2>Usos tipicos del <strong>CURP</strong> son:<a class="headerlink" href="#usos-tipicos-del-curp-son" title="Enlace permanente a este encabezado">¶</a></h2>
+<p>El <strong>CURP</strong> es una herramienta importante para la identificación y registro de las personas en México, y es necesario para acceder a una amplia variedad de servicios y trámites oficiales, algunos de sus usos tipicos son:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Identificación personal</strong>: identificar a las personas de manera única y evitar la duplicación de registros.</p></li>
+<li><p><strong>Trámites oficiales</strong>: realizar diversos trámites oficiales, como la obtención de una licencia de conducir, la inscripción en la escuela, el registro de una empresa, entre otros.</p></li>
+<li><p><strong>Registro de votantes</strong>: Es un requisito para registrarse como votante en México.</p></li>
+<li><p><strong>Servicios de salud</strong>: para acceder a servicios de salud del gobierno, como el Seguro Popular y el IMSS.</p></li>
+<li><p><strong>Control migratorio</strong>: Es utilizado para controlar la migración en el territorio mexicano.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="estructura-del-curp">
+<h2>Estructura del CURP<a class="headerlink" href="#estructura-del-curp" title="Enlace permanente a este encabezado">¶</a></h2>
+<blockquote id="imagen-ejemplo">
+<div><figure class="figure align-center" id="id2">
+<img alt="Curp de ejemplo caso Chabelo" src="_images/chabelo_curp.png" />
+<figcaption>
+<p><span class="caption-text">Descripción detallada de una CURP de ejemplo. Caso Chabelo.</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>La imagen muestra el curp de <strong>Xavier Lopéz Rodríguez</strong> quien nació en el extrangero, por lo tanto el valor en Entidad Federativa es <code class="docutils literal notranslate"><span class="pre">NE</span></code> <em>No especificado</em>.</p>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>id_nombre</strong>: formada de los siguientes 4 caracteres</dt><dd><ul>
+<li><p>Primera letra del primer apellido.</p></li>
+<li><p>Primera vocal del primer apellido.</p></li>
+<li><p>Primera letra del segundo apellido (en caso de tenerlo).</p></li>
+<li><p>Primera letra del nombre de pila.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>fecha_nacimiento</strong>: 6 digitos conformados de la siguiente manera AAMMDD:</dt><dd><ul>
+<li><p>Dos dígitos correspondientes al año de nacimiento.</p></li>
+<li><p>Dos dígitos correspondientes al mes de nacimiento.</p></li>
+<li><p>Dos dígitos correspondientes al día de nacimiento.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Sexo</strong>: Una letra para indicar el sexo (H para hombre y M para mujer).</p></li>
+<li><p><strong>entidad_federativa</strong> Código de dos letras que identifican la entidad federativa de nacimiento.</p></li>
+<li><dl class="simple">
+<dt><strong>consonantes_internas</strong> Segundo identificador del nombre, conformado por</dt><dd><ul>
+<li><p>Primer consonante interna del 1er apellido</p></li>
+<li><p>Primer consonante interna del 2do apellido</p></li>
+<li><p>Primer consonante interna del Nombre de pila</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>homoclave</strong>: Garantiza la unicidad de la clave, siendo un «<cite>número</cite>» serial, este tiene la caracteristica que para los que nacieron antes del año 2000 inicia con 0, mientras que los que nacieron del 2000 en adelante una A.</p></li>
+<li><p><strong>checksum:</strong> Digito verificador de los 17 caracteres previos, el calculo de este hace una variante del <a class="reference external" href="https://es.wikipedia.org/wiki/Algoritmo_de_Luhn">algoritmo Luhn</a>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">ref<span class="colon">:</span></dt>
+<dd class="field-odd"><p>imagen_ejemplo</p>
+</dd>
+</dl>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1">#   ⌐------------------------------ id_nombre: 1ras letras 1er ap, 2do ap y nombre</span>
+<span class="c1">#   |      ⌐----------------------- fecha_nacimiento: 6 digitos en orden AAMMDD</span>
+<span class="c1">#   |      |    ⌐------------------ sexo: un carácter el cual puede ser H ó  M</span>
+<span class="c1">#   |      |    |   ⌐-------------- entidad_federativa: codigo de 2 caracteres</span>
+<span class="c1">#   |      |    |   |   ⌐---------- consonantes_internas: 1er ap, 2d ap y nombre</span>
+<span class="c1">#   |      |    |   |   |    ⌐----- homoclave: Evita duplicidades</span>
+<span class="c1">#   |      |    |   |   |    |  ⌐-- checksum: Digito verificador de integridad</span>
+<span class="c1">#   |      |    |   |   |    |  |</span>
+<span class="c1"># NNNN  AAMMDD  S  EN  CCC   H  C</span>
+<span class="c1"># 0123  012345  0  01  012   0  0</span>
+</pre></div>
+</div>
+</section>
+<section id="codigo-de-entidad-federativa">
+<h2>Código de Entidad Federativa:<a class="headerlink" href="#codigo-de-entidad-federativa" title="Enlace permanente a este encabezado">¶</a></h2>
+<p>Los caracteres en la posición <code class="docutils literal notranslate"><span class="pre">11</span></code> y <code class="docutils literal notranslate"><span class="pre">12</span></code> en la <a class="reference external" href="#imagen-ejemplo">imagen de ejemplo</a> se encuentrán dados por un código de dos caracteres que corresponden a la entidad federativa de nacimiento, estos códigos se enecuentran dados por la siguiente tabla:</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Cátalogo de Entidades Federativas</span><a class="headerlink" href="#id3" title="Enlace permanente a esta tabla">¶</a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>CLAVE</p></th>
+<th class="head"><p>ENTIDAD FEDERATIVA</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>AS</p></td>
+<td><p>Aguascalientes</p></td>
+</tr>
+<tr class="row-odd"><td><p>BC</p></td>
+<td><p>Baja California</p></td>
+</tr>
+<tr class="row-even"><td><p>BS</p></td>
+<td><p>Baja California Sur</p></td>
+</tr>
+<tr class="row-odd"><td><p>CC</p></td>
+<td><p>Campeche</p></td>
+</tr>
+<tr class="row-even"><td><p>CL</p></td>
+<td><p>Coahuila de Zaragoza</p></td>
+</tr>
+<tr class="row-odd"><td><p>CM</p></td>
+<td><p>Colima</p></td>
+</tr>
+<tr class="row-even"><td><p>CS</p></td>
+<td><p>Chiapas</p></td>
+</tr>
+<tr class="row-odd"><td><p>CH</p></td>
+<td><p>Chihuahua</p></td>
+</tr>
+<tr class="row-even"><td><p>DF</p></td>
+<td><p>Ciudad de México</p></td>
+</tr>
+<tr class="row-odd"><td><p>DG</p></td>
+<td><p>Durango</p></td>
+</tr>
+<tr class="row-even"><td><p>GT</p></td>
+<td><p>Guanajuato</p></td>
+</tr>
+<tr class="row-odd"><td><p>GR</p></td>
+<td><p>Guerrero</p></td>
+</tr>
+<tr class="row-even"><td><p>HG</p></td>
+<td><p>Hidalgo</p></td>
+</tr>
+<tr class="row-odd"><td><p>JC</p></td>
+<td><p>Jalisco</p></td>
+</tr>
+<tr class="row-even"><td><p>MC</p></td>
+<td><p>Estado de México</p></td>
+</tr>
+<tr class="row-odd"><td><p>MN</p></td>
+<td><p>Michoacán de Ocampo</p></td>
+</tr>
+<tr class="row-even"><td><p>MS</p></td>
+<td><p>Morelos</p></td>
+</tr>
+<tr class="row-odd"><td><p>NT</p></td>
+<td><p>Nayarit</p></td>
+</tr>
+<tr class="row-even"><td><p>NL</p></td>
+<td><p>Nuevo León</p></td>
+</tr>
+<tr class="row-odd"><td><p>OC</p></td>
+<td><p>Oaxaca</p></td>
+</tr>
+<tr class="row-even"><td><p>PL</p></td>
+<td><p>Puebla</p></td>
+</tr>
+<tr class="row-odd"><td><p>QT</p></td>
+<td><p>Querétaro</p></td>
+</tr>
+<tr class="row-even"><td><p>QR</p></td>
+<td><p>Quintana Roo</p></td>
+</tr>
+<tr class="row-odd"><td><p>SP</p></td>
+<td><p>San Luis Potosí</p></td>
+</tr>
+<tr class="row-even"><td><p>SL</p></td>
+<td><p>Sinaloa</p></td>
+</tr>
+<tr class="row-odd"><td><p>SR</p></td>
+<td><p>Sonora</p></td>
+</tr>
+<tr class="row-even"><td><p>TC</p></td>
+<td><p>Tabasco</p></td>
+</tr>
+<tr class="row-odd"><td><p>TS</p></td>
+<td><p>Tamaulipas</p></td>
+</tr>
+<tr class="row-even"><td><p>TL</p></td>
+<td><p>Tlaxcala</p></td>
+</tr>
+<tr class="row-odd"><td><p>VZ</p></td>
+<td><p>Veracruz</p></td>
+</tr>
+<tr class="row-even"><td><p>YN</p></td>
+<td><p>Yucatán</p></td>
+</tr>
+<tr class="row-odd"><td><p>ZS</p></td>
+<td><p>Zacatecas</p></td>
+</tr>
+<tr class="row-even"><td><p>NE</p></td>
+<td><p>Extranjero</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><a class="reference external" href="https://dof.gob.mx/index_111.php?year=1996&amp;month=10&amp;day=23#gsc.tab=0">Diario Oficial de la Federación, Fecha: 23/10/1996 - Edición Matutina</a>. Ejemplar Completo(<em>PDF</em>) P8 <strong>CLAVES DE ENTIDADES FEDERATIVAS</strong></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Puede consultar en linea el Catalo de Entidades Oficial: <a class="reference external" href="http://www.dgis.salud.gob.mx/contenidos/intercambio/entidades_gobmx.html">http://www.dgis.salud.gob.mx/contenidos/intercambio/entidades_gobmx.html</a></p>
+</div>
+</section>
+<section id="checksum">
+<h2>Checksum<a class="headerlink" href="#checksum" title="Enlace permanente a este encabezado">¶</a></h2>
+<div class="admonition-como-se-calcula-el-checksum admonition">
+<p class="admonition-title">Como se calcula el checksum?</p>
+<p>Usa una variante del <a class="reference external" href="https://es.wikipedia.org/wiki/Algoritmo_de_Luhn">algoritmo Luhn</a></p>
+</div>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">Tabla de Equivalencias de Carácteres</span><a class="headerlink" href="#id4" title="Enlace permanente a esta tabla">¶</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>carácter</p></th>
+<th class="head"><p>valor</p></th>
+<th class="head"><p>carácter</p></th>
+<th class="head"><p>valor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>I</p></td>
+<td><p>18</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>J</p></td>
+<td><p>19</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>K</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>L</p></td>
+<td><p>21</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>M</p></td>
+<td><p>22</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>N</p></td>
+<td><p>23</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>O</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>7</p></td>
+<td><p>P</p></td>
+<td><p>26</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>Q</p></td>
+<td><p>27</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>9</p></td>
+<td><p>R</p></td>
+<td><p>28</p></td>
+</tr>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>10</p></td>
+<td><p>S</p></td>
+<td><p>29</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>11</p></td>
+<td><p>T</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>12</p></td>
+<td><p>U</p></td>
+<td><p>31</p></td>
+</tr>
+<tr class="row-odd"><td><p>D</p></td>
+<td><p>13</p></td>
+<td><p>V</p></td>
+<td><p>32</p></td>
+</tr>
+<tr class="row-even"><td><p>E</p></td>
+<td><p>14</p></td>
+<td><p>W</p></td>
+<td><p>33</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>15</p></td>
+<td><p>X</p></td>
+<td><p>34</p></td>
+</tr>
+<tr class="row-even"><td><p>G</p></td>
+<td><p>16</p></td>
+<td><p>Y</p></td>
+<td><p>35</p></td>
+</tr>
+<tr class="row-odd"><td><p>H</p></td>
+<td><p>17</p></td>
+<td><p>Z</p></td>
+<td><p>36</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ejemplo</strong>: para el curp <strong>LORX350217HNEPDV08</strong> en el cual claramente el checksum deberá ser <strong>8</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Asignar indice descendiente</strong> (<em>decreciente</em>): tal que para <strong>L</strong> es <code class="docutils literal notranslate"><span class="pre">18</span></code>, <strong>O</strong> 17, <strong>R</strong> 16 y asi sucesivamente asta llegar al <strong>0</strong> con <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>Asignar el valor equivalente a cada caracter</strong>: A cada carácter se le asigna el valor correspondiente en la tabla, para <strong>L</strong> le corresponde <code class="docutils literal notranslate"><span class="pre">21</span></code>, <strong>O</strong>  <code class="docutils literal notranslate"><span class="pre">25</span></code>, asi sucesivamente asta llegar al <strong>0</strong> con <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>Multiplicar el indice por el valor equivalente</strong>: A cada caracter se le multiplica el indice por su valor equivalente en la tabla, <strong>L</strong> con indice <code class="docutils literal notranslate"><span class="pre">18</span></code> y valor equivalente <code class="docutils literal notranslate"><span class="pre">21</span></code> que tendrá como producto <code class="docutils literal notranslate"><span class="pre">18*21</span> <span class="pre">=</span> <span class="pre">378</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Tabla de ejemplo Caso LORX350217HNEPDV08</span><a class="headerlink" href="#id5" title="Enlace permanente a esta tabla">¶</a></caption>
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Carácter</p></th>
+<th class="head"><p>Indice</p></th>
+<th class="head"><p>Valor</p></th>
+<th class="head"><p>Producto</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>L</p></td>
+<td><p>18</p></td>
+<td><p>21</p></td>
+<td><p>378</p></td>
+</tr>
+<tr class="row-odd"><td><p>O</p></td>
+<td><p>17</p></td>
+<td><p>25</p></td>
+<td><p>425</p></td>
+</tr>
+<tr class="row-even"><td><p>R</p></td>
+<td><p>16</p></td>
+<td><p>28</p></td>
+<td><p>448</p></td>
+</tr>
+<tr class="row-odd"><td><p>X</p></td>
+<td><p>15</p></td>
+<td><p>34</p></td>
+<td><p>510</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>14</p></td>
+<td><p>3</p></td>
+<td><p>42</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>13</p></td>
+<td><p>5</p></td>
+<td><p>65</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>11</p></td>
+<td><p>2</p></td>
+<td><p>22</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>10</p></td>
+<td><p>1</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>9</p></td>
+<td><p>7</p></td>
+<td><p>63</p></td>
+</tr>
+<tr class="row-even"><td><p>H</p></td>
+<td><p>8</p></td>
+<td><p>17</p></td>
+<td><p>136</p></td>
+</tr>
+<tr class="row-odd"><td><p>N</p></td>
+<td><p>7</p></td>
+<td><p>23</p></td>
+<td><p>161</p></td>
+</tr>
+<tr class="row-even"><td><p>E</p></td>
+<td><p>6</p></td>
+<td><p>14</p></td>
+<td><p>84</p></td>
+</tr>
+<tr class="row-odd"><td><p>P</p></td>
+<td><p>5</p></td>
+<td><p>26</p></td>
+<td><p>130</p></td>
+</tr>
+<tr class="row-even"><td><p>D</p></td>
+<td><p>4</p></td>
+<td><p>13</p></td>
+<td><p>52</p></td>
+</tr>
+<tr class="row-odd"><td><p>V</p></td>
+<td><p>3</p></td>
+<td><p>32</p></td>
+<td><p>96</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+<p>Posteriormente se suman los productos de cada indice con su valor correspondiente, somo se muestra a continuación:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{indice=18}^2 suma = {indice} • {valor} = 378 + 425 + ... + 96 + 0 = {2,622}\]</div>
+<p>Lo cual seria <code class="docutils literal notranslate"><span class="pre">suma</span> <span class="pre">=</span> <span class="pre">378</span> <span class="pre">+</span> <span class="pre">425</span> <span class="pre">+</span> <span class="pre">...</span> <span class="pre">+</span> <span class="pre">0</span></code> el cual para este ejemplo nos da el valor de <strong>2,622</strong>.</p>
+<p>La formula del <strong>checksum</strong> en función de la variable <strong>suma</strong> esta representada por la siguiente expresión:</p>
+<div class="math notranslate nohighlight">
+\[checksum = 10 - (suma \% 10)\]</div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Donde la operación <strong>%</strong> (<em>módulo</em>) representa el residuo de la división, en este caso de <strong>suma</strong> entre <code class="docutils literal notranslate"><span class="pre">10</span></code> lo cual lo convierte en un caso particular donde tiene la <em>función</em> de extraer el <strong>último digito</strong> de <strong>suma</strong>.</p>
+<p><strong>Por ejemplo</strong>: Para <code class="docutils literal notranslate"><span class="pre">suma</span> <span class="pre">=</span> <span class="pre">2,622</span></code> la operación es <code class="docutils literal notranslate"><span class="pre">2,622</span> <span class="pre">%</span> <span class="pre">10</span> <span class="pre">=</span> <span class="pre">residuo(2,622</span> <span class="pre">/</span> <span class="pre">10)</span> <span class="pre">=</span> <span class="pre">2</span></code>, para <code class="docutils literal notranslate"><span class="pre">suma</span> <span class="pre">=</span> <span class="pre">2,623</span></code> la operación es <code class="docutils literal notranslate"><span class="pre">2,623</span> <span class="pre">%</span> <span class="pre">10</span> <span class="pre">=</span> <span class="pre">residuo(2,623</span> <span class="pre">/</span> <span class="pre">10)</span> <span class="pre">=</span> <span class="pre">3</span></code> y asi sucesivamente va a extraer el útimo numero por ejemplo para <code class="docutils literal notranslate"><span class="pre">suma</span> <span class="pre">=</span> <span class="pre">1,999</span></code> la operación es <code class="docutils literal notranslate"><span class="pre">1,999</span> <span class="pre">%</span> <span class="pre">10</span> <span class="pre">=</span> <span class="pre">residuo(1,999</span> <span class="pre">/</span> <span class="pre">10)</span> <span class="pre">=</span> <span class="pre">9</span></code>.</p>
+</div>
+<p>De la formula anterior al remplazar <strong>suma</strong> por su valor obtenido previamente tras realizar la sumatoria el cual es <strong>2,622</strong> quedando como:</p>
+<div class="math notranslate nohighlight">
+\[checksum  = 10 - (suma \% 10) =  10 - (2,622 \% 10) =  10 - (2) = 8\]</div>
+<p>El cual nos devuelve el valor esperado de <strong>8</strong>, queda al lector realizar alguna otra prueba.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Usted puede validar dicho CURP <a class="reference external" href="https://www.gob.mx/curp/">En el sitio Oficial del Gobierno de México</a>.</p>
+</div>
+</section>
+<section id="enlaces-relacionados">
+<h2>Enlaces relacionados<a class="headerlink" href="#enlaces-relacionados" title="Enlace permanente a este encabezado">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="mexa.html#mexa.CurpField.CurpField">Clase CurpField</a>.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Tabla de contenido</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Teoría sobre el CURP</a><ul>
+<li><a class="reference internal" href="#usos-tipicos-del-curp-son">Usos tipicos del <strong>CURP</strong> son:</a></li>
+<li><a class="reference internal" href="#estructura-del-curp">Estructura del CURP</a></li>
+<li><a class="reference internal" href="#codigo-de-entidad-federativa">Código de Entidad Federativa:</a></li>
+<li><a class="reference internal" href="#checksum">Checksum</a></li>
+<li><a class="reference internal" href="#enlaces-relacionados">Enlaces relacionados</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Tema anterior</h4>
+    <p class="topless"><a href="index.html"
+                          title="capítulo anterior">Documentación Mexa</a></p>
+  </div>
+  <div>
+    <h4>Próximo tema</h4>
+    <p class="topless"><a href="modules.html"
+                          title="próximo capítulo">mexa</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/teoria_curp.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+
+
+<div>
+    <h3>Enlaces externos</h3>
+    <ul>
+        <li>
+            <a itemprop="codeRepository" href="https://github.com/fitorec/mexa-py">Repositorio en Github</a>
+        </li>
+        <li>
+            <a itemprop="archivedAt" href="https://pypi.org/project/mexa/">Disponible en PyPi</a>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <h3>Datos del proyecto</h3>
+    <ul>
+        <li>
+            Última versión: <strong itemprop="version">0.0.7</strong>
+        </li>
+        <li>
+            Lenguaje <a itemprop="programmingLanguage" href="https://python.org">Python</a>
+        </li>
+        <li>
+            Soporte en: <span itemprop="runtimePlatform">
+                3.5 o superior
+            </a>
+        </li>
+        <li>
+            Licencia:
+            <a itemprop="license" href="https://github.com/fitorec/mexa-py/blob/master/LICENSE">
+                <strong>MIT</strong>
+            </a>
+        </li>
+        <img itemprop="image" src="https://fitorec.github.io/mexa-py/_images/mexa_banner.png" style="display:none">
+    </ul>
+    <h3>Palabras Clave</h3>
+    <p itemprop="keywords">
+        Faker, verificador, validador, extractor, CURP, RFC, NSS, CLABE, Telefono, México
+    </p>
+    <span itemprop="codeSampleType" style="display:none">code snippet</span>
+    <span itemprop="inLanguage" style="display:none">spanish</span>
+</div>
+<p itemprop="about">
+    Mexa es un verificador, validador y extractor de información de campos utilires para la tramitología mexicana: CURP, RFC, NSS, CLABE, Telefono Local.
+</p>
+
+
+<div itemprop="funder" itemtype="https://schema.org/Organization">
+    <p>
+        Patrocinado por
+        <strong itemprop="name">
+            Soluciones Inegrales en computación Aplicada
+        </strong>
+    </p>
+    <a itemprop="url" href="https://mundosica.com/">mundosica.com</a>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             >índice</a></li>
+        <li class="right" >
+          <a href="modules.html" title="mexa"
+             >siguiente</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentación Mexa"
+             >anterior</a> |</li>
+        <li class="nav-item nav-item-0">
+            <a itemprop="url" href="index.html">documentación de Mexa - </a>
+             &#187;
+        </li>
+        <li class="nav-item nav-item-this"><a href="">Teoría sobre el CURP</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright
+        <span itemprop="author">
+            @Fitorec - Miguel Angel Marcial Martínez.
+        </span>
+      Creado usando <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>
